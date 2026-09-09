@@ -1156,7 +1156,23 @@ async function deleteFinancialHealthAssessment(){
     financialHealthAssessment=null;financialHealthEditingCompleted=false;resetFinancialHealthLocal();closeFinancialHealth();
   }catch(err){fhError(err.message||"Unable to delete this assessment.")}finally{fhLoading(false)}
 }
-function firstIncompleteHealthStep(){if(!financialHealthAssessment||!financialHealthAssessment.consent_given)return 0;if(!financialHealthCache.household)return 1;if(!financialHealthIncomeSources.length)return 2;if(!financialHealthCache.cash)return 3;if(!financialHealthCache.emergency)return 4;if(!financialHealthCache.risk)return 5;if(!financialHealthCache.longterm)return 6;return 7}
+function firstIncompleteHealthStep(){
+  if(!financialHealthAssessment || !financialHealthAssessment.consent_given) return 0;
+  if(!financialHealthCache.household) return 1;
+
+  const incomeReceivers = Number(
+    financialHealthCache.household?.income_receiving_members ?? 0
+  );
+
+  if(incomeReceivers > 0 && !financialHealthIncomeSources.length) return 2;
+
+  if(!financialHealthCache.cash) return 3;
+  if(!financialHealthCache.emergency) return 4;
+  if(!financialHealthCache.risk) return 5;
+  if(!financialHealthCache.longterm) return 6;
+
+  return 7;
+}
 
 async function startHealthAssessment(){
   try{
