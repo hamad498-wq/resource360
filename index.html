@@ -1235,7 +1235,18 @@ async function saveHealthIncome(){
   }catch(err){fhError(err.message)}finally{fhLoading(false)}
 }
 async function deleteHealthIncome(id){if(!confirm("Remove this income source from the current assessment?"))return;try{fhLoading(true,"Removing income source…");const {error}=await getSupabase().from("financial_health_income_sources").delete().eq("id",id);if(error)throw error;financialHealthIncomeSources=financialHealthIncomeSources.filter(x=>Number(x.id)!==Number(id));renderHealthIncomeList()}catch(err){fhError(err.message)}finally{fhLoading(false)}}
-function continueHealthIncome(){if(!financialHealthIncomeSources.length){fhError("Please add at least one current household income source.");return}showHealthStep(3)}
+function continueHealthIncome(){
+  const incomeReceivers = Number(
+    financialHealthCache.household?.income_receiving_members ?? 0
+  );
+
+  if(incomeReceivers > 0 && !financialHealthIncomeSources.length){
+    fhError("Please add at least one current household income source.");
+    return;
+  }
+
+  showHealthStep(3);
+}
 
 function fillHealthCash(){const x=financialHealthCache.cash;if(!x)return;["monthly_savings_contributions","monthly_investment_contributions","monthly_discretionary_spending","annual_irregular_expenses"].forEach(k=>setFhInput("fh_"+k,x[k]));setFhRadio("fh_has_overdue_obligations",x.has_overdue_obligations);setFhRadio("fh_uses_debt_for_regular_expenses",x.uses_debt_for_regular_expenses)}
 async function saveHealthCashFlow(){
