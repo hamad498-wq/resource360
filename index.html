@@ -1,0 +1,2088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Resource360 — Building Financially Resourceful Households.">
+<title>Resource360 | Client Portal</title>
+<style>
+:root{--navy:#062c59;--navy2:#0b4278;--green:#159447;--gold:#d8a514;--ink:#132238;--muted:#66758a;--bg:#f6f9fc;--white:#fff;--line:#e5ebf2;--danger:#b42318}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.6}
+a{text-decoration:none;color:inherit}.container{width:min(1160px,92%);margin:auto}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:30px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--navy);letter-spacing:.4px}.brand img{width:46px;height:46px;object-fit:contain}.brand span{font-size:20px}
+nav{display:flex;gap:24px;align-items:center;font-size:14px;font-weight:600;color:#43546a}nav a:hover{color:var(--green)}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 20px;border-radius:8px;font-weight:700;border:1px solid transparent;transition:.2s;cursor:pointer}
+.btn-primary{background:var(--navy);color:#fff}.btn-primary:hover{background:var(--navy2);transform:translateY(-1px)}
+.btn-outline{border-color:#cbd6e2;color:var(--navy);background:#fff}.btn-outline:hover{border-color:var(--green);color:var(--green)}
+.hero{background:linear-gradient(135deg,#f8fbff,#fff 60%,#f2faf6);padding:86px 0 72px}
+.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:60px}
+.kicker,.eyebrow{display:inline-block;color:var(--green);font-size:12px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:13px}
+h1{font-size:clamp(42px,5.3vw,68px);line-height:1.05;color:var(--navy);letter-spacing:-2px;margin-bottom:22px}.hero h1 span{color:var(--green)}
+.lead{font-size:19px;color:#526176;max-width:650px;margin-bottom:30px}.actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 18px 50px rgba(6,44,89,.10)}.hero-card img{width:100%;display:block;max-height:400px;object-fit:contain}
+section{padding:82px 0}.section-head{max-width:760px;margin-bottom:42px}.section-head p{color:var(--muted);font-size:17px}
+h2{font-size:clamp(31px,4vw,45px);line-height:1.12;color:var(--navy);letter-spacing:-1px;margin-bottom:15px}
+.stats{background:var(--navy);color:#fff}.stats h2{color:#fff}.stats .section-head p{color:#c7d4e4}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.16);border-radius:16px;overflow:hidden}.stat{padding:30px 24px;background:rgba(255,255,255,.035)}.stat strong{font-size:32px;color:#fff;display:block}.stat span{color:#bdcbdb;font-size:13px}
+.approach{background:var(--bg)}.steps,.programs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:27px;box-shadow:0 8px 25px rgba(6,44,89,.04)}.num{color:var(--gold);font-weight:900;font-size:13px;letter-spacing:1px}.card h3{color:var(--navy);margin:8px 0 7px;font-size:20px}.card p{color:var(--muted);font-size:14px}
+.portal{background:linear-gradient(135deg,#edf6ff,#f4fbf6)}.portal-box{display:grid;grid-template-columns:1fr auto;gap:35px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:20px;padding:40px;box-shadow:0 18px 50px rgba(6,44,89,.10)}.portal-box p{color:var(--muted);max-width:700px}
+footer{background:#071f3c;color:#d4dfeb;padding:55px 0 28px}.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:45px}footer h3{color:#fff;margin-bottom:12px}footer p,footer a{font-size:14px;color:#b8c6d6}footer a{display:block;margin:6px 0}.copyright{border-top:1px solid rgba(255,255,255,.12);margin-top:35px;padding-top:18px;font-size:12px;color:#8fa2b8}
+
+/* Portal */
+.portal-app{display:none;min-height:calc(100vh - 78px);background:var(--bg)}
+.portal-app.active{display:block}.portal-top{background:#fff;border-bottom:1px solid var(--line)}.portal-top-inner{height:76px;display:flex;align-items:center;justify-content:space-between}.user-pill{display:flex;align-items:center;gap:12px}.avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#e9f6ee;color:var(--green);font-weight:800}
+
+.pending-app{display:none;min-height:100vh;background:#f7f9fb}
+.pending-app.active{display:block}
+.pending-wrap{max-width:760px;margin:0 auto;padding:64px 20px}
+.pending-card{background:#fff;border:1px solid #e4e9ee;border-radius:20px;padding:38px;box-shadow:0 18px 50px rgba(19,44,62,.08)}
+.pending-icon{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#fff7df;font-size:30px;margin-bottom:20px}
+.pending-card h2{margin:0 0 10px}
+.pending-card p{color:var(--muted);line-height:1.7}
+.pending-details{margin:26px 0;border-top:1px solid #edf0f2;border-bottom:1px solid #edf0f2}
+.pending-row{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid #edf0f2}
+.pending-row:last-child{border-bottom:0}
+.pending-row span:first-child{color:var(--muted)}
+.pending-status{display:inline-flex;align-items:center;border-radius:999px;padding:5px 11px;background:#fff3cd;color:#775b00;font-weight:700;font-size:13px}
+.pending-actions{display:flex;justify-content:flex-end;margin-top:24px}
+@media(max-width:600px){.pending-wrap{padding:32px 16px}.pending-card{padding:26px 20px}.pending-row{flex-direction:column;gap:5px}.pending-actions .btn{width:100%}}
+
+.dashboard{padding:42px 0}.welcome{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:28px}.welcome h2{margin-bottom:4px}.welcome p{color:var(--muted)}
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}.metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}.metric small{color:var(--muted);font-weight:700}.metric strong{display:block;font-size:26px;color:var(--navy);margin-top:5px}.metric.green strong{color:var(--green)}
+.two-col{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px}.panel h3{color:var(--navy);margin-bottom:15px}.list{list-style:none}.list li{padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:15px}.list li:last-child{border-bottom:0}.badge{font-size:11px;font-weight:800;padding:4px 8px;border-radius:99px;background:#edf8f1;color:var(--green);white-space:nowrap}
+.notice{padding:13px 15px;border-radius:9px;background:#fff7e0;border:1px solid #f0dfaa;color:#72550a;font-size:13px;margin-top:18px}
+.research-list{list-style:none}
+.research-item{padding:16px 0;border-bottom:1px solid var(--line)}
+.research-item:last-child{border-bottom:0}
+.research-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.research-title{font-weight:800;color:var(--navy);font-size:16px}
+.research-meta{color:var(--muted);font-size:12px;margin-top:2px}
+.research-levels{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.research-chip{font-size:12px;padding:5px 9px;border-radius:999px;background:#f4f7fa;border:1px solid var(--line);color:#43546a}
+.research-status{font-size:11px;font-weight:800;padding:4px 8px;border-radius:99px;background:#edf8f1;color:var(--green);white-space:nowrap}
+.research-body{margin-top:10px;color:#526176;font-size:13px;line-height:1.55}
+.research-disclaimer{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:#7b8797;font-size:11px;line-height:1.5}
+.research-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 18px}
+.research-tab{border:1px solid var(--line);background:#f8fafc;color:#43546a;padding:9px 13px;border-radius:999px;font-size:12px;font-weight:800;cursor:pointer}
+.research-tab:hover{border-color:#b8c7d8;color:var(--navy)}
+.research-tab.active{background:var(--navy);border-color:var(--navy);color:#fff}
+.research-section-summary{font-size:12px;color:var(--muted);margin-bottom:4px}
+.research-fundamentals{color:var(--muted);font-size:12px;margin-top:4px}
+.research-buy{margin-top:12px;padding:12px 14px;border:1px solid var(--line);background:#f8fafc;border-radius:10px;color:#43546a;font-size:13px;line-height:1.5}
+.research-buy strong{display:block;color:var(--navy);margin-bottom:2px}
+.research-level-stack{display:grid;gap:7px;margin-top:10px}
+.research-level-line{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:8px 10px;border-radius:9px;font-size:13px;border:1px solid var(--line);background:#fff}
+.research-level-line strong{color:var(--navy)}
+.research-level-line.target{background:#f2fbf5;border-color:#cfead8}
+.research-level-line.target strong,.research-level-line.target span{color:#126b36}
+.research-level-line.stop{background:#fff5f4;border-color:#f0cfcb}
+.research-level-line.stop strong,.research-level-line.stop span{color:#9f2017}
+.research-empty{padding:18px 0;color:var(--muted);font-size:13px}
+.research-summary{cursor:pointer}
+.research-toggle{margin-top:10px;border:0;background:none;color:var(--navy);font-weight:800;font-size:13px;cursor:pointer;padding:0;display:inline-flex;align-items:center;gap:6px}
+.research-toggle:hover{color:var(--green)}
+.research-toggle-icon{display:inline-block;transition:transform .2s ease}
+.research-item.expanded .research-toggle-icon{transform:rotate(180deg)}
+.research-details{display:none}
+.research-item.expanded .research-details{display:block}
+
+
+/* Financial Health Check */
+.health-launch{margin-bottom:24px;background:linear-gradient(135deg,#f7fbff,#f3fbf6);border:1px solid #dce8e2;border-radius:16px;padding:24px;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center}
+.health-launch h3{color:var(--navy);font-size:21px;margin-bottom:5px}.health-launch p{color:var(--muted);font-size:14px;max-width:760px}
+.health-status{display:inline-flex;align-items:center;gap:7px;margin-top:11px;font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;background:#fff7e0;color:#72550a;border:1px solid #f0dfaa}
+.health-status.done{background:#edf8f1;color:#126b36;border-color:#b9e1c8}
+.health-history{margin:0 0 24px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px}
+.health-history-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:14px}
+.health-history-head h3{color:var(--navy);font-size:20px;margin:0 0 3px}.health-history-head p{color:var(--muted);font-size:13px;margin:0}
+.health-history-list{display:grid;gap:10px}
+.health-history-item{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfe}
+.health-history-item.current{background:linear-gradient(135deg,#f7fbff,#f3fbf6);border-color:#cfe3d7}
+.health-history-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.health-history-title strong{color:var(--navy)}
+.health-history-meta{font-size:12px;color:var(--muted);margin-top:3px}
+.health-history-score{font-size:13px;color:#43546a;margin-top:5px}.health-history-score strong{color:var(--navy)}
+.health-history-actions{display:flex;align-items:center;gap:8px}
+.health-current-badge{display:inline-flex;padding:3px 8px;border-radius:999px;background:#edf8f1;color:#126b36;font-size:10px;font-weight:800}
+.health-history-empty{color:var(--muted);font-size:13px;padding:4px 0}
+@media(max-width:700px){.health-history-item{grid-template-columns:1fr}.health-history-actions .btn{width:100%}.health-history-head{flex-direction:column}}
+.health-app{display:none;min-height:100vh;background:var(--bg)}.health-app.active{display:block}
+.health-shell{width:min(980px,92%);margin:auto;padding:34px 0 60px}
+.health-head{margin-bottom:18px}.health-head h1{font-size:clamp(31px,5vw,46px);letter-spacing:-1px;margin-bottom:8px}.health-head p{color:var(--muted);max-width:760px}
+.health-progress{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 16px;margin:18px 0 20px}
+.health-progress-top{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted);margin-bottom:9px}.health-progress-top strong{color:var(--navy)}
+.health-progress-bar{height:9px;background:#edf1f5;border-radius:999px;overflow:hidden}.health-progress-bar span{display:block;height:100%;width:0;background:var(--green);transition:.2s}
+.health-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px;box-shadow:0 8px 28px rgba(6,44,89,.05)}
+.health-step{display:none}.health-step.active{display:block}.health-card h2{font-size:30px;margin-bottom:8px}
+.health-intro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.health-mini{border:1px solid var(--line);border-radius:12px;padding:15px;background:#fbfcfe}.health-mini strong{display:block;color:var(--navy);margin-bottom:4px}.health-mini span{font-size:13px;color:var(--muted)}
+.health-q{margin:22px 0}.health-q:first-of-type{margin-top:16px}.health-q .main{display:block;font-weight:800;color:#27394f;margin-bottom:5px}
+.health-help{font-size:13px;color:var(--muted);margin-bottom:9px}.health-example{font-size:12px;color:#758399;margin-top:6px}
+.health-card input[type=number],.health-card input[type=text],.health-card input[type=date],.health-card select{width:100%;border:1px solid #cbd6e2;border-radius:9px;padding:11px 12px;min-height:44px;background:#fff;outline:none;font:inherit}
+.health-card input:focus,.health-card select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(21,148,71,.1)}
+.money-wrap{position:relative}.money-wrap:before{content:"PKR";position:absolute;left:12px;top:12px;font-size:12px;font-weight:800;color:#758399}.money-wrap input{padding-left:48px!important}
+.health-radio-row{display:flex;gap:10px;flex-wrap:wrap}.health-radio{position:relative}.health-radio input{position:absolute;opacity:0}.health-radio span{display:block;border:1px solid #cbd6e2;background:#fff;color:#43546a;padding:9px 14px;border-radius:9px;cursor:pointer;font-weight:700;font-size:13px}.health-radio input:checked+span{border-color:var(--green);background:#edf8f1;color:#126b36}
+.health-two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.health-conditional{display:none}.health-conditional.show{display:block}
+.health-actions{display:flex;justify-content:space-between;gap:12px;margin-top:26px;flex-wrap:wrap}
+.health-error{display:none;background:#fff0ee;border:1px solid #f2c7c2;color:var(--danger);padding:12px 14px;border-radius:10px;margin-bottom:14px;font-size:13px}.health-error.show{display:block}
+.health-success{background:#edf8f1;border:1px solid #bfe1ca;color:#126b36;padding:13px 14px;border-radius:10px;margin:16px 0;font-size:13px}
+.health-consent{display:flex;gap:10px;align-items:flex-start;margin-top:17px}.health-consent input{margin-top:4px}.health-consent label{font-size:13px;color:#43546a}
+.income-list{display:grid;gap:10px;margin:16px 0}.income-item{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;justify-content:space-between;gap:14px;align-items:center}.income-item strong{color:var(--navy);display:block}.income-meta{font-size:12px;color:var(--muted)}.income-actions{display:flex;gap:7px}.tiny{padding:7px 9px;border-radius:7px;border:1px solid #ccd6e1;background:#fff;color:var(--navy);cursor:pointer;font-size:12px;font-weight:800}.tiny.danger{color:var(--danger)}
+.health-review{display:grid;gap:12px}.health-review-section{border:1px solid var(--line);border-radius:12px;padding:16px}.health-review-section h3{margin-bottom:10px;color:var(--navy)}.health-review-row{display:flex;justify-content:space-between;gap:18px;padding:6px 0;border-bottom:1px dashed #edf0f4;font-size:13px}.health-review-row:last-child{border:0}.health-review-row span:first-child{color:var(--muted)}.health-review-row strong{text-align:right}
+.health-loading{position:fixed;inset:0;background:rgba(246,249,252,.92);z-index:100;display:grid;place-items:center}.health-loading.hidden{display:none}.health-loader-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 26px;color:var(--navy);font-weight:800;box-shadow:0 15px 50px rgba(6,44,89,.12)}
+
+/* Financial Health Profile */
+.health-profile-hero{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;margin:18px 0 22px;padding:22px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,#f7fbff,#f3fbf6)}
+.health-score-ring{width:118px;height:118px;border-radius:50%;display:grid;place-items:center;background:#fff;border:10px solid #dce8e2;box-shadow:0 8px 22px rgba(6,44,89,.08)}
+.health-score-ring strong{font-size:30px;color:var(--navy);line-height:1}.health-score-ring span{font-size:11px;color:var(--muted);font-weight:800}
+.profile-band{display:inline-flex;padding:5px 10px;border-radius:999px;background:#edf8f1;color:#126b36;font-size:12px;font-weight:800;margin-top:6px}
+.health-progress-compare{margin-top:16px;padding-top:14px;border-top:1px solid #dce5ee}
+.health-progress-compare-label{font-size:12px;color:var(--muted);font-weight:800;margin-bottom:5px}
+.health-progress-compare-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.health-progress-compare-scores{font-weight:900;color:var(--navy);font-size:15px}
+.health-progress-change{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:900}
+.health-progress-change.improved{background:#edf8f1;color:#126b36}
+.health-progress-change.stable{background:#f4f7fa;color:#526176}
+.health-progress-change.declined{background:#fff0ee;color:var(--danger)}
+.health-progress-baseline{margin-top:16px;padding-top:14px;border-top:1px solid #dce5ee;color:#526176;font-size:13px;line-height:1.55}
+.health-progress-baseline strong{color:var(--navy)}
+.health-history-progress{margin-top:9px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.health-history-progress-badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900}
+.health-history-progress-badge.improved{background:#edf8f1;color:#126b36}
+.health-history-progress-badge.stable{background:#f4f7fa;color:#526176}
+.health-history-progress-badge.declined{background:#fff0ee;color:var(--danger)}
+.health-history-progress-since{font-size:12px;color:var(--muted);font-weight:700}
+.health-history-progress-toggle{margin-top:9px;border:0;background:transparent;color:var(--navy);font-weight:900;font-size:12px;padding:0;cursor:pointer}
+.health-history-progress-toggle:hover{text-decoration:underline}
+.health-history-progress-panel{display:none;margin-top:12px;padding:14px;border:1px solid #dce5ee;border-radius:14px;background:#fff}
+.health-history-progress-panel.open{display:block}
+.health-history-progress-panel h4{margin:0 0 8px;color:var(--navy);font-size:14px}
+.health-history-progress-overall{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px}
+.health-history-progress-note{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.5}
+.health-progress-groups{display:grid;gap:12px;margin-top:14px}
+.health-progress-group{border-top:1px solid var(--line);padding-top:12px}
+.health-progress-group:first-child{border-top:0;padding-top:0}
+.health-progress-group-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.health-progress-group-title strong{color:var(--navy);font-size:13px}
+.health-progress-group-count{font-size:11px;color:var(--muted);font-weight:800}
+.health-progress-dimension-list{display:grid;gap:8px}
+.health-progress-dimension{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:#fbfcfe}
+.health-progress-dimension-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.health-progress-dimension-name{font-weight:800;color:var(--navy);font-size:13px}
+.health-progress-dimension-change{font-size:12px;font-weight:900;white-space:nowrap}
+.health-progress-dimension-change.improved{color:#126b36}
+.health-progress-dimension-change.declined{color:var(--danger)}
+.health-progress-dimension-change.stable{color:#526176}
+.health-progress-dimension-meta{margin-top:4px;color:var(--muted);font-size:11px;line-height:1.5}
+.health-progress-empty{font-size:12px;color:var(--muted);padding:4px 0}
+.profile-alerts{display:grid;gap:10px;margin:16px 0}.profile-alert{border-radius:10px;padding:12px 14px;font-size:13px;border:1px solid var(--line);background:#f8fafc;color:#43546a}.profile-alert.warn{background:#fff7e0;border-color:#f0dfaa;color:#72550a}.profile-alert.danger{background:#fff0ee;border-color:#f2c7c2;color:var(--danger)}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}.profile-panel{border:1px solid var(--line);border-radius:14px;padding:18px;background:#fff}.profile-panel h3{color:var(--navy);margin-bottom:12px}.profile-list{display:grid;gap:10px}.profile-item{border:1px solid var(--line);border-radius:11px;padding:14px;background:#fbfcfe}.profile-item-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.profile-item strong{color:var(--navy)}.profile-item-score{font-weight:900;color:var(--navy);white-space:nowrap}.profile-item small{display:block;color:var(--muted);margin-top:3px}.profile-item p{font-size:13px;color:#526176;margin-top:8px}.profile-item .action-text{padding-top:8px;margin-top:8px;border-top:1px dashed var(--line)}
+.dimension-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}.dimension-card{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fbfcfe}.dimension-card strong{display:block;color:var(--navy);font-size:13px}.dimension-card span{font-size:12px;color:var(--muted)}
+.dimension-card.contextual{grid-column:1/-1;background:linear-gradient(135deg,#f7fbff,#f3fbf6);border-color:#dce8e2;padding:16px}
+.dimension-context{margin-top:11px;padding-top:11px;border-top:1px dashed #d7e1e8;display:grid;gap:8px}
+.dimension-context p{font-size:12px;color:#526176;line-height:1.55;margin:0}
+.dimension-context strong{display:inline;color:var(--navy);font-size:12px}
+.pending-health-box{margin-top:24px;padding:20px;border:1px solid #dce8e2;border-radius:14px;background:linear-gradient(135deg,#f7fbff,#f3fbf6)}.pending-health-box h3{color:var(--navy);margin:4px 0 6px}.pending-health-box p{font-size:14px}.pending-health-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+@media(max-width:700px){.health-profile-hero{grid-template-columns:1fr}.health-score-ring{margin:auto}.profile-grid,.dimension-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.health-launch{grid-template-columns:1fr}.health-launch .btn{width:100%}.health-intro-grid,.health-two{grid-template-columns:1fr}.health-card{padding:20px}.income-item{align-items:flex-start;flex-direction:column}.health-review-row{flex-direction:column;gap:2px}.health-review-row strong{text-align:left}}
+
+.modal{position:fixed;inset:0;background:rgba(5,25,48,.62);display:none;align-items:center;justify-content:center;padding:16px;z-index:50;overflow:hidden}.modal.show{display:flex}
+body.modal-open{overflow:hidden}
+.login-card{width:min(460px,calc(100vw - 32px));max-height:calc(100svh - 32px);overflow-y:auto;overscroll-behavior:contain;background:#fff;border-radius:18px;padding:24px 28px 22px;box-shadow:0 25px 80px rgba(0,0,0,.25);position:relative;margin:0;scrollbar-gutter:stable}.login-card img{width:62px;height:62px;object-fit:contain;display:block;margin:0 auto 6px}.login-card h2{text-align:center;font-size:26px;margin-bottom:2px}.login-sub{text-align:center;color:var(--muted);font-size:14px;margin-bottom:16px}
+.form-group{margin-bottom:12px}.form-group label{display:block;font-size:13px;font-weight:700;margin-bottom:5px;color:#33465d}.form-group input{width:100%;padding:10px 12px;border:1px solid #cdd7e3;border-radius:8px;font:inherit;outline:none;min-height:44px}.form-group input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(21,148,71,.10)}
+.login-btn{width:100%;margin-top:2px;min-height:44px}.error{display:none;background:#fff0ee;color:var(--danger);border:1px solid #f2c7c2;padding:9px 11px;border-radius:8px;font-size:13px;margin-bottom:12px}.error.show{display:block}
+.demo-box{margin-top:14px;padding:11px 12px;background:#f6f9fc;border:1px solid var(--line);border-radius:9px;font-size:12px;color:#58697e}.demo-box strong{color:var(--navy)}
+.auth-switch{text-align:center;margin-top:11px;font-size:13px;color:var(--muted)}.auth-switch button{border:0;background:none;color:var(--green);font-weight:800;cursor:pointer;padding:0}.success{display:none;background:#edf8f1;color:#126b36;border:1px solid #b9e1c8;padding:9px 11px;border-radius:8px;font-size:13px;margin-bottom:12px}.success.show{display:block}
+.close{position:absolute;top:12px;right:12px;z-index:10;width:36px;height:36px;border:0;border-radius:50%;background:#f6f9fc;box-shadow:0 2px 10px rgba(6,44,89,.10);display:grid;place-items:center;font-size:24px;line-height:1;color:#526176;cursor:pointer}.close:hover{background:#eaf0f6;color:var(--navy)}
+@media(max-width:850px){nav{display:none}.hero-grid{grid-template-columns:1fr}.stat-grid{grid-template-columns:repeat(2,1fr)}.steps,.programs{grid-template-columns:1fr 1fr}.dash-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.portal-box{grid-template-columns:1fr}.welcome{align-items:flex-start;flex-direction:column}}
+@media(max-width:560px){.steps,.programs,.stat-grid,.dash-grid{grid-template-columns:1fr}section{padding:62px 0}.brand span{font-size:18px}.hero h1{letter-spacing:-1px}.modal{padding:8px}.login-card{width:calc(100vw - 16px);max-height:calc(100svh - 16px);padding:20px 18px 18px;border-radius:14px}.login-card img{width:54px;height:54px}.login-card h2{font-size:24px}.close{top:8px;right:8px}}
+</style>
+</head>
+<body>
+
+<header id="publicHeader">
+  <div class="container nav">
+    <a class="brand" href="#home"><img src="resource360-logo.png" alt="Resource360 logo"><span>RESOURCE360</span></a>
+    <nav>
+      <a href="#vision">Our Vision</a><a href="#approach">Our Approach</a><a href="#programs">Programs</a>
+      <a href="#portal">Client Portal</a><a href="#" onclick="openSignup();return false;">Sign Up</a><a class="btn btn-primary" href="#" onclick="openLogin();return false;">Client Login</a>
+    </nav>
+  </div>
+</header>
+
+<main id="publicSite">
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div>
+      <div class="kicker">A Financial Resourcefulness Initiative</div>
+      <h1>Your Household.<br><span>Your Resources.</span><br>Your Opportunity.</h1>
+      <p class="lead">Resource360 helps households manage money better, reduce avoidable costs, utilize existing resources, create additional revenue streams and build long-term financial resilience.</p>
+      <div class="actions"><a class="btn btn-primary" href="#vision">Explore Resource360</a><a class="btn btn-outline" href="#" onclick="openLogin();return false;">Client Portal</a></div>
+    </div>
+    <div class="hero-card"><img src="resource360-logo.png" alt="Resource360 — Building Financially Resourceful Households"></div>
+  </div>
+</section>
+
+<section id="vision">
+  <div class="container">
+    <div class="section-head"><div class="eyebrow">Why Resourcefulness Matters</div>
+    <h2>Financial pressure requires more than simply earning more.</h2>
+    <p>Resource360 starts with a practical question: how can a household make better use of the resources it already possesses while creating new opportunities for financial progress?</p></div>
+    <div class="stat-grid" style="background:#fff;border:1px solid var(--line)">
+      <div class="stat" style="background:#fff"><strong style="color:var(--navy)">PKR 82,179</strong><span style="color:var(--muted)">Nominal monthly household income</span></div>
+      <div class="stat" style="background:#fff"><strong style="color:var(--navy)">PKR 79,150</strong><span style="color:var(--muted)">Average monthly consumption</span></div>
+      <div class="stat" style="background:#fff"><strong style="color:var(--navy)">~6</strong><span style="color:var(--muted)">Average household members</span></div>
+      <div class="stat" style="background:#fff"><strong style="color:var(--navy)">PKR 13,742</strong><span style="color:var(--muted)">Approx. monthly per-capita income</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="approach" id="approach">
+  <div class="container"><div class="section-head"><div class="eyebrow">The Resource360 Framework</div>
+  <h2>Six steps toward a more resourceful household.</h2><p>We look beyond income alone and consider the complete household economic picture.</p></div>
+  <div class="steps">
+    <article class="card"><div class="num">01 — UNDERSTAND</div><h3>Know your money</h3><p>Understand income, expenses, savings, obligations and financial priorities.</p></article>
+    <article class="card"><div class="num">02 — OPTIMIZE</div><h3>Reduce leakage</h3><p>Identify avoidable costs and improve the efficiency of household spending.</p></article>
+    <article class="card"><div class="num">03 — UTILIZE</div><h3>Use what you have</h3><p>Identify underused assets, skills, time, knowledge and networks.</p></article>
+    <article class="card"><div class="num">04 — CREATE</div><h3>Create income</h3><p>Develop practical additional revenue streams suited to the household.</p></article>
+    <article class="card"><div class="num">05 — INVEST</div><h3>Put resources to work</h3><p>Learn how productive investments can support long-term financial goals.</p></article>
+    <article class="card"><div class="num">06 — GROW</div><h3>Build resilience</h3><p>Turn better systems and productive resources into sustainable financial progress.</p></article>
+  </div></div>
+</section>
+
+<section id="programs">
+  <div class="container"><div class="section-head"><div class="eyebrow">What We Do</div><h2>Practical financial support for the whole household.</h2></div>
+  <div class="programs">
+    <article class="card"><h3>Money Management</h3><p>Build practical systems for budgeting, spending, saving and financial planning.</p></article>
+    <article class="card"><h3>Income Creation</h3><p>Explore additional revenue opportunities using skills, time and available resources.</p></article>
+    <article class="card"><h3>Resource Utilization</h3><p>Find productive uses for household assets and capabilities that may be underutilized.</p></article>
+    <article class="card"><h3>Investment & Markets</h3><p>Access market education, research and investment-focused resources.</p></article>
+    <article class="card"><h3>Training & Education</h3><p>Develop knowledge and practical skills needed for stronger financial decisions.</p></article>
+    <article class="card"><h3>Household Assessment</h3><p>View the household as a complete economic system rather than isolated financial transactions.</p></article>
+  </div></div>
+</section>
+
+<section class="portal" id="portal"><div class="container"><div class="portal-box">
+  <div><div class="eyebrow">Private Client Area</div><h2>Your Resource360 journey, in one place.</h2><p>The client portal provides registered clients with personalized resources, research, training, documents, communications and financial information.</p></div>
+  <div class="actions"><a class="btn btn-outline" href="#" onclick="openSignup();return false;">Create Account</a><a class="btn btn-primary" href="#" onclick="openLogin();return false;">Client Login</a></div>
+</div></div></section>
+</main>
+
+<!-- Client dashboard, shown after successful demo login -->
+<section class="portal-app" id="portalApp">
+  <div class="portal-top"><div class="container portal-top-inner">
+    <a class="brand" href="#" onclick="logout();return false;"><img src="resource360-logo.png" alt="Resource360 logo"><span>RESOURCE360</span></a>
+    <div class="user-pill"><div><strong id="dashName">Client</strong><div style="font-size:12px;color:var(--muted)">Client Account</div></div><div class="avatar" id="avatar">C</div><button class="btn btn-outline" onclick="logout()">Logout</button></div>
+  </div></div>
+  <div class="container dashboard">
+    <div class="welcome"><div><div class="eyebrow">Client Dashboard</div><h2>Welcome back, <span id="welcomeName">Client</span>.</h2><p>Your Resource360 information and resources.</p></div><div class="badge">Account Active</div></div>
+    <div class="health-launch">
+      <div>
+        <div class="eyebrow">Financial Health</div>
+        <h3>Your Financial Health Check</h3>
+        <p>Assess household income, responsibilities, cash flow, resilience, protection and long-term financial security before moving into money-management planning.</p>
+        <span class="health-status" id="healthStatus">Checking status…</span>
+      </div>
+      <div class="actions" style="justify-content:flex-end">
+        <button class="btn btn-outline" id="healthNewBtn" type="button" onclick="startNewFinancialHealth()" style="display:none">Take New Assessment</button>
+        <button class="btn btn-primary" id="healthActionBtn" type="button" onclick="openFinancialHealth()">Open Health Check</button>
+      </div>
+    </div>
+    <div class="health-history" id="financialHealthHistory">
+      <div class="health-history-head">
+        <div>
+          <h3>Assessment History</h3>
+          <p>Review your completed Financial Health Checks and revisit earlier profiles.</p>
+        </div>
+      </div>
+      <div class="health-history-list" id="financialHealthHistoryList">
+        <div class="health-history-empty">Loading assessment history…</div>
+      </div>
+    </div>
+    <div class="dash-grid">
+      <div class="metric"><small>Programs</small><strong id="dashProgram">Loading...</strong></div>
+      <div class="metric green"><small>Research</small><strong id="researchMetric">Loading...</strong></div>
+      <div class="metric"><small>Training</small><strong>4 Courses</strong></div>
+      <div class="metric"><small>Last Review</small><strong>Sept 2026</strong></div>
+    </div>
+    <div class="two-col">
+      <div class="panel"><h3>PSX Market &amp; Investment Update</h3>
+        <div class="research-tabs" id="researchTabs" role="tablist" aria-label="Research sections">
+          <button class="research-tab" type="button" data-section="KSE 100 Update" onclick="setResearchSection('KSE 100 Update')">KSE 100 Update</button>
+          <button class="research-tab active" type="button" data-section="Stocks" onclick="setResearchSection('Stocks')">Stocks</button>
+          <button class="research-tab" type="button" data-section="News" onclick="setResearchSection('News')">News</button>
+        </div>
+        <div class="research-section-summary" id="researchSectionSummary">Loading research...</div>
+        <ul class="research-list" id="researchUpdatesList">
+          <li class="research-item"><span>Loading your research...</span></li>
+        </ul>
+      </div>
+      <div class="panel"><h3>Your Programs</h3><ul class="list" id="clientProgramsList">
+        <li><span>Loading your programs...</span><span class="badge">Please wait</span></li>
+      </ul><div class="notice">Your program access is loaded securely from Supabase and protected by Row Level Security.</div></div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Financial Health Check for active clients -->
+<section class="health-app" id="financialHealthApp">
+  <div class="portal-top"><div class="container portal-top-inner">
+    <a class="brand" href="#" onclick="closeFinancialHealth();return false;"><img src="resource360-logo.png" alt="Resource360 logo"><span>RESOURCE360</span></a>
+    <button class="btn btn-outline" type="button" onclick="closeFinancialHealth()">Back to dashboard</button>
+  </div></div>
+  <div class="health-shell">
+    <div class="health-head">
+      <div class="eyebrow">Resource360 Assessment</div>
+      <h1>Financial Health Check</h1>
+      <p>Understand how resilient your household finances are before moving into money management and improvement planning.</p>
+    </div>
+    <div class="health-progress">
+      <div class="health-progress-top"><strong id="healthStepName">Introduction</strong><span id="healthStepCount">Step 1 of 8</span></div>
+      <div class="health-progress-bar"><span id="healthProgressBar"></span></div>
+    </div>
+    <div class="health-error" id="healthError"></div>
+    <div class="health-card">
+
+      <section class="health-step active" data-health-step="0">
+        <div class="eyebrow">Before we begin</div><h2>A complete household view</h2>
+        <p class="health-help">This check looks beyond salary alone. It considers household responsibilities, income stability, cash flow, emergency resources, protection and long-term financial security.</p>
+        <div class="health-intro-grid">
+          <div class="health-mini"><strong>Assess</strong><span>Understand your current financial position.</span></div>
+          <div class="health-mini"><strong>Prioritize</strong><span>Identify where improvement matters most.</span></div>
+          <div class="health-mini"><strong>Improve</strong><span>Use Resource360 tools and programs to make progress.</span></div>
+        </div>
+        <div class="notice"><strong>Privacy:</strong> We will not ask for passwords, PINs, banking credentials or detailed medical diagnoses. Estimates are acceptable where exact figures are not available.</div>
+        <p class="health-help" style="margin-top:14px">Your answers will be used to prepare your Resource360 Financial Health Profile and recommendations. This assessment is an educational and planning aid and does not guarantee financial outcomes or replace regulated professional advice.</p>
+        <div class="health-consent"><input id="healthConsent" type="checkbox"><label for="healthConsent"><strong>I agree to continue.</strong> I understand that Resource360 will store the household financial information I provide for this assessment and use it to prepare my financial health profile and recommendations.</label></div>
+        <div class="health-actions"><span></span><button class="btn btn-primary" type="button" onclick="startHealthAssessment()">Start Financial Health Check</button></div>
+      </section>
+
+      <section class="health-step" data-health-step="1">
+        <div class="eyebrow">Section 1</div><h2>Household Profile</h2><p class="health-help">First, help us understand the household that your financial resources need to support.</p>
+        <div class="health-q"><label class="main">How many people currently live in your household?</label><div class="health-help">Count everyone who normally lives in the household and shares household resources or expenses.</div><input id="fh_household_members" type="number" min="1" step="1"><div class="health-example">Example: you, spouse, two children and one parent = 5.</div></div>
+        <div class="health-q"><label class="main">How many household members receive their own regular income?</label><div class="health-help">Count members regularly receiving salary, business income, pension, rental income, freelancing income or another regular source.</div><input id="fh_income_receiving_members" type="number" min="0" step="1"></div>
+        <div class="health-q"><label class="main">How many household members depend fully on the household’s income for their financial needs?</label><div class="health-help">Count people without sufficient income of their own who are completely reliant on the household for regular living expenses.</div><input id="fh_fully_dependent_members" type="number" min="0" step="1"></div>
+        <div class="health-q"><label class="main">How many household members depend partly on the household’s income?</label><div class="health-help">Count people who have some income or support of their own but still regularly need household support.</div><input id="fh_partially_dependent_members" type="number" min="0" step="1"></div>
+        <div class="health-q"><label class="main">How many household members are financially self-sufficient?</label><div class="health-help">People who can cover their own regular needs and do not normally depend on household support.</div><input id="fh_non_dependent_members" type="number" min="0" step="1"></div>
+        <div class="health-q"><label class="main">How many of the people who depend on your household financially are children?</label><div class="health-help">This is a subset of dependents, not additional household members.</div><input id="fh_dependent_children" type="number" min="0" step="1"></div>
+        <div class="health-q"><label class="main">About how much does your household spend each month on essential and committed expenses?</label><div class="health-help">Include groceries, utilities, housing, necessary transport, education and other necessary household expenses. Exclude savings, investments, optional spending and debt installments.</div><div class="money-wrap"><input id="fh_monthly_household_expenses" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">About how much does your household currently pay each month toward loans or other debt?</label><div class="health-help">Enter regular monthly repayments, not the total outstanding balance.</div><div class="money-wrap"><input id="fh_monthly_debt_payments" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">About how much does your household normally spend each month on recurring medical or healthcare needs?</label><div class="health-help">Include regular medicines, routine treatment, recurring tests, therapy or other recurring healthcare costs.</div><div class="money-wrap"><input id="fh_monthly_recurring_medical_costs" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">About how much regular financial support does your household receive each month from outside the household?</label><div class="health-help">Do not include salary, business income, pension, rental income, remittance or another income source entered separately.</div><div class="money-wrap"><input id="fh_monthly_external_support" type="number" min="0" step="0.01" oninput="toggleExternalSupportFields()"></div><div class="health-example">Enter 0 if the household does not currently receive outside financial support.</div></div>
+        <div id="fhExternalSupportFields" class="health-conditional">
+          <div class="health-q"><label class="main">How regular is this external financial support?</label><select id="fh_external_support_regularity"><option value="">Select…</option><option>Fixed</option><option>Mostly Fixed</option><option>Variable</option><option>Irregular</option></select><div class="health-example">Fixed = usually the same amount; Mostly Fixed = predictable with some variation; Variable = received regularly but the amount changes significantly; Irregular = timing or amount is hard to predict.</div></div>
+          <div class="health-q"><label class="main">How long has your household been receiving this support?</label><div class="health-two"><div><div class="health-help">Years</div><input id="fh_external_support_tenure_years" type="number" min="0" step="1"></div><div><div class="health-help">Months</div><input id="fh_external_support_tenure_months" type="number" min="0" max="11" step="1"></div></div></div>
+          <div class="health-q"><label class="main">Does this external support have a known end date?</label><div class="health-radio-row"><label class="health-radio"><input type="radio" name="fh_external_support_has_end_date" value="true" onchange="toggleExternalSupportEndDate()"><span>Yes</span></label><label class="health-radio"><input type="radio" name="fh_external_support_has_end_date" value="false" onchange="toggleExternalSupportEndDate()"><span>No</span></label></div><div id="fhExternalSupportEndDateWrap" class="health-conditional" style="margin-top:10px"><label class="main">When is the support expected to end?</label><input id="fh_external_support_expected_end_date" type="date"></div></div>
+        </div>
+        <div class="health-actions"><button class="btn btn-outline" onclick="showHealthStep(0)">Back</button><button class="btn btn-primary" onclick="saveHealthHousehold()">Save & Continue</button></div>
+      </section>
+
+      <section class="health-step" data-health-step="2">
+        <div class="eyebrow">Section 2</div><h2>Income & Income Stability</h2><p class="health-help">Tell us about the income your household receives right now. If no one is currently earning, that is a valid situation — you can continue without adding an income source.</p>
+        <div class="income-list" id="fhIncomeList"></div><button class="btn btn-outline" type="button" onclick="newHealthIncome()">+ Add income source</button>
+        <div id="fhIncomeEditor" style="display:none;margin-top:20px;border-top:1px solid var(--line);padding-top:18px">
+          <h3 id="fhIncomeEditorTitle" style="color:var(--navy)">Add income source</h3><input type="hidden" id="fh_income_id">
+          <div class="health-q"><label class="main">What type of income is this?</label><select id="fh_income_source_type" onchange="toggleHealthSalaryFields()"><option value="">Select…</option><option>Salary</option><option>Business</option><option>Freelancing</option><option>Rental Income</option><option>Pension</option><option>Agriculture</option><option>Investment Income</option><option>Remittance</option><option>Other</option></select></div>
+          <div class="health-q"><label class="main">About how much income do you normally receive from this source each month?</label><div class="health-help">Enter only this source. An estimate is fine if the amount varies.</div><div class="money-wrap"><input id="fh_monthly_income" type="number" min="0" step="0.01"></div></div>
+          <div class="health-q"><label class="main">How regular is the income from this source?</label><select id="fh_income_regularity"><option value="">Select…</option><option>Fixed</option><option>Mostly Fixed</option><option>Variable</option><option>Seasonal</option><option>Irregular</option></select><div class="health-example">Fixed = usually the same amount; Mostly Fixed = predictable with some variation; Variable = regular but changes significantly; Seasonal = mainly particular periods; Irregular = timing or amount is hard to predict.</div></div>
+          <div class="health-q"><label class="main">How long have you been receiving income from this source?</label><div class="health-two"><div><div class="health-help">Years</div><input id="fh_tenure_years" type="number" min="0" step="1"></div><div><div class="health-help">Months</div><input id="fh_tenure_months" type="number" min="0" max="11" step="1"></div></div></div>
+          <div id="fhSalaryFields" class="health-conditional">
+            <div class="health-q"><label class="main">What type of employment is this salary from?</label><select id="fh_employment_type"><option value="">Select…</option><option>Government - Permanent</option><option>Government - Contract</option><option>Private - Permanent</option><option>Private - Contract</option><option>Temporary / Casual</option><option>Other</option></select></div>
+            <div class="health-q"><label class="main">Does this job provide a pension after retirement?</label><div class="health-radio-row"><label class="health-radio"><input type="radio" name="fh_is_pensionable" value="true"><span>Yes</span></label><label class="health-radio"><input type="radio" name="fh_is_pensionable" value="false"><span>No</span></label></div></div>
+            <div class="health-q"><label class="main">Does this job provide any other retirement benefit, such as provident fund or gratuity?</label><div class="health-radio-row"><label class="health-radio"><input type="radio" name="fh_has_retirement_benefits" value="true"><span>Yes</span></label><label class="health-radio"><input type="radio" name="fh_has_retirement_benefits" value="false"><span>No</span></label></div></div>
+          </div>
+          <div class="health-q"><label class="main">Does this income source have a known end date?</label><div class="health-radio-row"><label class="health-radio"><input type="radio" name="fh_has_end_date" value="true" onchange="toggleHealthEndDate()"><span>Yes</span></label><label class="health-radio"><input type="radio" name="fh_has_end_date" value="false" onchange="toggleHealthEndDate()"><span>No</span></label></div><div id="fhEndDateWrap" class="health-conditional" style="margin-top:10px"><label class="main">When is it expected to end?</label><input id="fh_expected_end_date" type="date"></div></div>
+          <div class="health-q"><label class="main">Is this income source independent from your household’s main income source?</label><div class="health-help">An independent source would normally continue if the household’s main income source stopped. For example, salary plus house rent is usually independent; salary plus a bonus from the same employer is not.</div><div class="health-radio-row"><label class="health-radio"><input type="radio" name="fh_is_independent_income_source" value="true"><span>Yes</span></label><label class="health-radio"><input type="radio" name="fh_is_independent_income_source" value="false"><span>No</span></label></div></div>
+          <div class="health-q"><label class="main">Give this income source a short name or description. <span style="font-weight:400;color:var(--muted)">(optional)</span></label><input id="fh_income_source_description" type="text" maxlength="120" placeholder="e.g. Software Job, House Rent"></div>
+          <div class="health-actions"><button class="btn btn-outline" onclick="cancelHealthIncome()">Cancel</button><button class="btn btn-primary" onclick="saveHealthIncome()">Save income source</button></div>
+        </div>
+        <div class="health-actions"><button class="btn btn-outline" onclick="showHealthStep(1)">Back</button><button class="btn btn-primary" onclick="continueHealthIncome()">Continue</button></div>
+      </section>
+
+      <section class="health-step" data-health-step="3">
+        <div class="eyebrow">Section 3</div><h2>Cash-Flow Health</h2><p class="health-help">Now we look at how your household is managing its current monthly resources and commitments. This helps us identify where support or adjustment may be most useful.</p>
+        <div class="health-q"><label class="main">About how much does your household normally set aside as savings each month?</label><div class="health-help">Include deliberate cash, bank or emergency savings. Exclude investments.</div><div class="money-wrap"><input id="fh_monthly_savings_contributions" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">About how much does your household normally invest each month?</label><div class="health-help">Include stocks, mutual funds, retirement investments, business or productive-asset contributions. Exclude ordinary savings and the emergency fund.</div><div class="money-wrap"><input id="fh_monthly_investment_contributions" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">About how much does your household normally spend each month on optional or non-essential expenses?</label><div class="health-help">Examples include eating out, entertainment, leisure shopping, outings and non-essential subscriptions.</div><div class="money-wrap"><input id="fh_monthly_discretionary_spending" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">About how much does your household spend in a year on predictable expenses that do not occur every month?</label><div class="health-help">Examples include annual school charges, vehicle tax or insurance, annual subscriptions, property charges and planned family expenses.</div><div class="money-wrap"><input id="fh_annual_irregular_expenses" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">Is your household currently behind on any regular financial obligations?</label><div class="health-radio-row"><label class="health-radio"><input type="radio" name="fh_has_overdue_obligations" value="true"><span>Yes</span></label><label class="health-radio"><input type="radio" name="fh_has_overdue_obligations" value="false"><span>No</span></label></div></div>
+        <div class="health-q"><label class="main">Does your household regularly borrow money or use credit to cover normal monthly expenses?</label><div class="health-help">Examples include groceries, utilities, rent, fuel or school expenses. Exclude occasional borrowing for a major purchase or unexpected emergency.</div><div class="health-radio-row"><label class="health-radio"><input type="radio" name="fh_uses_debt_for_regular_expenses" value="true"><span>Yes</span></label><label class="health-radio"><input type="radio" name="fh_uses_debt_for_regular_expenses" value="false"><span>No</span></label></div></div>
+        <div class="health-actions"><button class="btn btn-outline" onclick="showHealthStep(2)">Back</button><button class="btn btn-primary" onclick="saveHealthCashFlow()">Save & Continue</button></div>
+      </section>
+
+      <section class="health-step" data-health-step="4">
+        <div class="eyebrow">Section 4</div><h2>Emergency Resilience</h2><p class="health-help">Resource360 will calculate emergency survival periods automatically from the amounts you provide.</p>
+        <div class="health-q"><label class="main">Do you currently keep money specifically set aside for financial emergencies?</label><div class="health-help">Money intentionally reserved for events such as income loss, an urgent repair or an unforeseen family expense.</div><div class="health-radio-row"><label class="health-radio"><input type="radio" name="fh_has_dedicated_emergency_fund" value="true" onchange="toggleHealthEmergencyFund()"><span>Yes</span></label><label class="health-radio"><input type="radio" name="fh_has_dedicated_emergency_fund" value="false" onchange="toggleHealthEmergencyFund()"><span>No</span></label></div></div>
+        <div id="fhEmergencyAmountWrap" class="health-conditional health-q"><label class="main">How much money do you currently have specifically set aside for emergencies?</label><div class="money-wrap"><input id="fh_dedicated_emergency_fund_amount" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">Apart from your dedicated emergency fund, how much other money could your household access within a few days if a serious financial need arose?</label><div class="health-help">Include cash, bank balances, cash or money-market funds and similar readily available money. Do not double-count the dedicated emergency fund.</div><div class="money-wrap"><input id="fh_liquid_emergency_savings" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">Apart from the money already entered, approximately how much do you have in financial assets that could be converted to cash relatively quickly if necessary?</label><div class="health-help">Examples include listed shares, mutual funds and other readily saleable financial investments. Exclude property, vehicles and business equipment.</div><div class="money-wrap"><input id="fh_near_liquid_assets" type="number" min="0" step="0.01"></div></div>
+        <div class="health-actions"><button class="btn btn-outline" onclick="showHealthStep(3)">Back</button><button class="btn btn-primary" onclick="saveHealthEmergency()">Save & Continue</button></div>
+      </section>
+
+      <section class="health-step" data-health-step="5">
+        <div class="eyebrow">Section 5</div><h2>Risk & Protection</h2><p class="health-help">We focus on major financial exposures, the protection available and the remaining gap.</p>
+        <div class="health-q"><label class="main">Does your household currently have any health insurance or medical expense coverage?</label><div class="health-help">Formal coverage may come from an employer, private insurer or government scheme. Do not count informal family help or your own savings.</div><div class="health-radio-row"><label class="health-radio"><input type="radio" name="fh_has_health_coverage" value="true" onchange="toggleHealthCoverage()"><span>Yes</span></label><label class="health-radio"><input type="radio" name="fh_has_health_coverage" value="false" onchange="toggleHealthCoverage()"><span>No</span></label></div></div>
+        <div id="fhHealthCoverageFields" class="health-conditional">
+          <div class="health-q"><label class="main">Where does your household’s health coverage come from?</label><select id="fh_health_coverage_source"><option value="">Select…</option><option>Employer</option><option>Private insurance</option><option>Government scheme</option><option>Other</option></select></div>
+          <div class="health-q"><label class="main">What is the approximate annual medical coverage limit for your household?</label><div class="health-help">Leave this blank if you do not know.</div><div class="money-wrap"><input id="fh_health_coverage_limit_annual" type="number" min="0" step="0.01"></div></div>
+        </div>
+        <div class="health-q"><label class="main">Does anyone whose income is important to your household have life insurance or similar death-benefit coverage?</label><div class="health-help">This includes a formal policy or employer benefit that would pay the household or beneficiaries if an important income earner died.</div><div class="health-radio-row"><label class="health-radio"><input type="radio" name="fh_has_life_insurance" value="true" onchange="toggleHealthLifeInsurance()"><span>Yes</span></label><label class="health-radio"><input type="radio" name="fh_has_life_insurance" value="false" onchange="toggleHealthLifeInsurance()"><span>No</span></label></div></div>
+        <div id="fhLifeInsuranceFields" class="health-conditional health-q"><label class="main">What is the approximate total life insurance or death-benefit coverage available?</label><div class="health-help">Leave this blank if you do not know.</div><div class="money-wrap"><input id="fh_life_insurance_coverage_amount" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">Approximately how much does your household currently owe in total?</label><div class="health-help">Enter total outstanding debt, not monthly installments. Include loans, vehicle or home financing, credit balances and other borrowed money.</div><div class="money-wrap"><input id="fh_total_outstanding_debt" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">Is any of your household’s debt secured against an important asset?</label><div class="health-help">Select Yes if an asset such as a home or vehicle could be taken or repossessed if the debt is not repaid.</div><div class="health-radio-row"><label class="health-radio"><input type="radio" name="fh_has_secured_debt" value="true"><span>Yes</span></label><label class="health-radio"><input type="radio" name="fh_has_secured_debt" value="false"><span>No</span></label></div></div>
+        <div class="health-actions"><button class="btn btn-outline" onclick="showHealthStep(4)">Back</button><button class="btn btn-primary" onclick="saveHealthRisk()">Save & Continue</button></div>
+      </section>
+
+      <section class="health-step" data-health-step="6">
+        <div class="eyebrow">Section 6</div><h2>Long-Term Financial Security</h2><p class="health-help">Finally, we look at resources that can strengthen your household over time and provide additional financial support beyond current monthly income.</p>
+        <div class="health-q"><label class="main">Approximately how much does your household currently have in financial investments?</label><div class="health-help">Include stocks, mutual funds, investment certificates and other financial investments. Exclude the dedicated emergency fund, ordinary cash or bank savings, property, vehicles and business equipment.</div><div class="money-wrap"><input id="fh_financial_investment_assets" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">Approximately how much does your household own in assets that help generate income or support income generation?</label><div class="health-help">Examples include rental property, income-producing land, commercial livestock, machinery and business equipment.</div><div class="money-wrap"><input id="fh_productive_nonfinancial_assets" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">Approximately how much does your household own in major personal-use assets?</label><div class="health-help">Examples include your primary home, personal vehicles, jewelry and other significant personal assets. Exclude financial investments and productive assets already entered.</div><div class="money-wrap"><input id="fh_personal_use_assets" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">Approximately how much has your household accumulated in provident fund, gratuity or other employer-linked retirement benefits?</label><div class="health-help">Enter the current measurable accumulated value. Exclude future monthly pension and ordinary investments already entered.</div><div class="money-wrap"><input id="fh_accumulated_retirement_benefits" type="number" min="0" step="0.01"></div></div>
+        <div class="health-q"><label class="main">Does your household own the home you currently live in?</label><div class="health-radio-row"><label class="health-radio"><input type="radio" name="fh_owns_primary_residence" value="true" onchange="toggleHealthHomeFinancing()"><span>Yes</span></label><label class="health-radio"><input type="radio" name="fh_owns_primary_residence" value="false" onchange="toggleHealthHomeFinancing()"><span>No</span></label></div></div>
+        <div id="fhHomeFinancingWrap" class="health-conditional health-q"><label class="main">Is there currently any loan or financing outstanding against the home you live in?</label><div class="health-help">Select Yes if money is still owed on financing or a loan secured against your primary residence.</div><div class="health-radio-row"><label class="health-radio"><input type="radio" name="fh_primary_residence_has_financing" value="true"><span>Yes</span></label><label class="health-radio"><input type="radio" name="fh_primary_residence_has_financing" value="false"><span>No</span></label></div></div>
+        <div class="health-actions"><button class="btn btn-outline" onclick="showHealthStep(5)">Back</button><button class="btn btn-primary" onclick="saveHealthLongTerm()">Save & Review</button></div>
+      </section>
+
+      <section class="health-step" data-health-step="7">
+        <div class="eyebrow">Review</div><h2>Review your Financial Health Check</h2><p class="health-help">Check the information below before submitting. You can go back to any section to change an answer.</p>
+        <div id="fhReview" class="health-review" style="margin-top:20px"></div>
+        <div class="notice">Submitting completes assessment version 1.0. Resource360 will use this information to prepare your Financial Health Profile, priority areas and recommendations. Your results describe your household's current situation and can change as your circumstances change.</div>
+        <div class="health-actions">
+          <button class="btn btn-outline" onclick="showHealthStep(6)">Back</button>
+          <div class="actions">
+            <button class="btn btn-outline" onclick="closeFinancialHealth()">Return to dashboard</button>
+            <button class="btn btn-primary" id="fhSubmitBtn" onclick="completeHealthAssessment()">Submit Financial Health Check</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="health-step" data-health-step="8">
+        <div class="eyebrow">Completed</div><h2>Your Financial Health Check has been submitted.</h2>
+        <div class="health-success">Your information has been saved securely and your Resource360 Financial Health Profile is ready.</div>
+        <p class="health-help">Your completed assessment remains stored for future comparison and reassessment.</p>
+        <div class="health-actions">
+          <button class="btn btn-outline" type="button" onclick="editCompletedHealthAssessment()">Edit Assessment</button>
+          <div class="actions">
+            <button class="btn btn-primary" type="button" onclick="viewFinancialHealthProfile()">View Financial Health Profile</button>
+            <button class="btn btn-outline" type="button" onclick="startNewFinancialHealth()">Take New Assessment</button>
+            <button class="btn btn-outline" type="button" style="color:var(--danger);border-color:#efc7c2" onclick="deleteFinancialHealthAssessment()">Delete Assessment</button>
+            <button class="btn btn-outline" type="button" onclick="closeFinancialHealth()">Return to dashboard</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="health-step" data-health-step="9">
+        <div class="eyebrow">Your Results</div><h2>Financial Health Profile</h2>
+        <p class="health-help">Your profile is a snapshot of your household's current financial situation — not a judgment of you or your future. It combines eight Resource360 financial-health dimensions with practical priority areas, strengths and data-quality checks.</p>
+        <div id="fhProfileContent"><div class="notice">Loading your Financial Health Profile…</div></div>
+        <div class="health-actions">
+          <button class="btn btn-outline" type="button" onclick="showHealthStep(8)">Back to assessment</button>
+          <button class="btn btn-primary" type="button" onclick="closeFinancialHealth()">Return to dashboard</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+<div class="health-loading hidden" id="fhLoading"><div class="health-loader-card" id="fhLoadingText">Loading your Financial Health Check…</div></div>
+
+<!-- Limited portal for accounts that are not yet Active -->
+<section class="pending-app" id="pendingPortalApp">
+  <div class="portal-top">
+    <div class="container portal-top-inner">
+      <a class="brand" href="#" onclick="logout();return false;">
+        <img src="resource360-logo.png" alt="Resource360 logo"><span>RESOURCE360</span>
+      </a>
+      <button class="btn btn-outline" onclick="logout()">Logout</button>
+    </div>
+  </div>
+  <div class="pending-wrap">
+    <div class="pending-card">
+      <div class="pending-icon" aria-hidden="true">⏳</div>
+      <div class="eyebrow">Resource360 Account</div>
+      <h2>Account awaiting approval</h2>
+      <p>Your Resource360 account has been created successfully. Your membership is currently awaiting approval. Once your account is activated, your full client dashboard and approved resources will become available automatically.</p>
+      <div class="pending-details">
+        <div class="pending-row"><span>Name</span><strong id="pendingName">Client</strong></div>
+        <div class="pending-row"><span>Email</span><strong id="pendingEmail">—</strong></div>
+        <div class="pending-row"><span>Membership status</span><span><span class="pending-status" id="pendingStatus">Pending</span></span></div>
+      </div>
+      <p style="font-size:14px;margin:0">You do not need to create another account. Program access and paid services can be activated separately after approval.</p>
+      <div class="pending-health-box">
+        <div class="eyebrow">Available to Every Registered User</div>
+        <h3>Financial Health Check</h3>
+        <p>You can complete your Resource360 Financial Health Check and view your Financial Health Profile even while your membership is awaiting approval.</p>
+        <span class="health-status" id="pendingHealthStatus">Checking status…</span>
+        <div class="pending-health-actions">
+          <button class="btn btn-outline" id="pendingHealthNewBtn" type="button" onclick="startNewFinancialHealth()" style="display:none">Take New Assessment</button>
+          <button class="btn btn-primary" id="pendingHealthActionBtn" type="button" onclick="openFinancialHealth()">Open Health Check</button>
+        </div>
+        <div class="health-history" style="margin:20px 0 0;padding:16px">
+          <div class="health-history-head">
+            <div>
+              <h3>Assessment History</h3>
+              <p>Your completed Financial Health Checks remain available while membership approval is pending.</p>
+            </div>
+          </div>
+          <div class="health-history-list" id="pendingFinancialHealthHistoryList">
+            <div class="health-history-empty">Loading assessment history…</div>
+          </div>
+        </div>
+      </div>
+      <div class="pending-actions"><button class="btn btn-outline" onclick="logout()">Logout</button></div>
+    </div>
+  </div>
+</section>
+
+<footer id="publicFooter"><div class="container"><div class="footer-grid">
+  <div><h3>RESOURCE360</h3><p>Building Financially Resourceful Households.</p><p style="margin-top:12px">Your Household. Your Resources. Your Opportunity.</p></div>
+  <div><h3>Explore</h3><a href="#vision">Our Vision</a><a href="#approach">Our Approach</a><a href="#programs">Programs</a></div>
+  <div><h3>Client Area</h3><a href="#" onclick="openSignup();return false;">Create Account</a><a href="#" onclick="openLogin();return false;">Client Login</a></div>
+</div><div class="copyright">© 2026 Resource360. All rights reserved.</div></div></footer>
+
+<div class="modal" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+  <div class="login-card">
+    <button class="close" onclick="closeLogin()" aria-label="Close">×</button>
+    <img src="resource360-logo.png" alt="Resource360">
+    <h2 id="loginTitle">Client Portal</h2><p class="login-sub">Sign in to access your Resource360 account.</p>
+    <div class="error" id="loginError">Invalid email or password.</div>
+    <form onsubmit="login(event)">
+      <div class="form-group"><label for="email">Email address</label><input id="email" type="email" autocomplete="username" required></div>
+      <div class="form-group"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required></div>
+      <button class="btn btn-primary login-btn" type="submit">Sign In</button>
+    </form>
+    <div class="demo-box"><strong>Secure client sign-in</strong><br>Access to client data is protected by Supabase authentication and Row Level Security.</div>
+    <div class="auth-switch">New to Resource360? <button type="button" onclick="switchToSignup()">Create an account</button></div>
+  </div>
+</div>
+
+<div class="modal" id="signupModal" role="dialog" aria-modal="true" aria-labelledby="signupTitle">
+  <div class="login-card">
+    <button class="close" onclick="closeSignup()" aria-label="Close">×</button>
+    <img src="resource360-logo.png" alt="Resource360">
+    <h2 id="signupTitle">Create Account</h2><p class="login-sub">Join Resource360 and create your secure client profile.</p>
+    <div class="error" id="signupError"></div>
+    <div class="success" id="signupSuccess"></div>
+    <form onsubmit="signup(event)">
+      <div class="form-group"><label for="signupName">Full name</label><input id="signupName" type="text" autocomplete="name" required></div>
+      <div class="form-group"><label for="signupEmail">Email address</label><input id="signupEmail" type="email" autocomplete="email" required></div>
+      <div class="form-group"><label for="signupPassword">Password</label><input id="signupPassword" type="password" autocomplete="new-password" minlength="8" required></div>
+      <div class="form-group"><label for="signupConfirm">Confirm password</label><input id="signupConfirm" type="password" autocomplete="new-password" minlength="8" required></div>
+      <button class="btn btn-primary login-btn" type="submit">Create Account</button>
+    </form>
+    <div class="demo-box"><strong>Financial Health is available immediately.</strong><br>New accounts start as Pending for programs and paid services, but every registered user can sign in, complete the Financial Health Check and view their results.</div>
+    <div class="auth-switch">Already have an account? <button type="button" onclick="switchToLogin()">Sign in</button></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://ihmznicllegdaabbddto.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_jyupyYxm8dd5QM59_rqwQg_1oqcdflu";
+
+let sb = null;
+let currentClientProfile = null;
+let financialHealthAssessment = null;
+let financialHealthIncomeSources = [];
+let financialHealthCache = {household:null,cash:null,emergency:null,risk:null,longterm:null};
+const FINANCIAL_HEALTH_VERSION = "1.0";
+let financialHealthEditingCompleted = false;
+let financialHealthHistory = [];
+
+function getSupabase(){
+  if (!sb) {
+    if (!window.supabase) throw new Error("Supabase library failed to load.");
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+  }
+  return sb;
+}
+
+function updateModalBodyLock(){
+  const anyOpen=document.querySelector('.modal.show');
+  document.body.classList.toggle('modal-open',Boolean(anyOpen));
+}
+function openLogin(){
+  document.getElementById("loginError").classList.remove("show");
+  const modal=document.getElementById("loginModal");
+  modal.classList.add("show");
+  modal.scrollTop=0;
+  const card=modal.querySelector('.login-card');
+  if(card) card.scrollTop=0;
+  updateModalBodyLock();
+  setTimeout(()=>document.getElementById("email").focus(),0);
+}
+function closeLogin(){document.getElementById("loginModal").classList.remove("show");updateModalBodyLock()}
+function openSignup(){
+  document.getElementById("signupError").classList.remove("show");
+  document.getElementById("signupSuccess").classList.remove("show");
+  const modal=document.getElementById("signupModal");
+  modal.classList.add("show");
+  modal.scrollTop=0;
+  const card=modal.querySelector('.login-card');
+  if(card) card.scrollTop=0;
+  updateModalBodyLock();
+  setTimeout(()=>document.getElementById("signupName").focus(),0);
+}
+function closeSignup(){document.getElementById("signupModal").classList.remove("show");updateModalBodyLock()}
+function switchToSignup(){closeLogin();openSignup()}
+function switchToLogin(){closeSignup();openLogin()}
+
+['loginModal','signupModal'].forEach((id)=>{
+  const modal=document.getElementById(id);
+  const card=modal.querySelector('.login-card');
+  modal.addEventListener('click',(e)=>{
+    if(e.target===modal){
+      modal.classList.remove('show');
+      updateModalBodyLock();
+    }
+  });
+  card.addEventListener('click',(e)=>e.stopPropagation());
+});
+
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Escape'){
+    closeLogin();
+    closeSignup();
+  }
+});
+
+async function signup(e){
+  e.preventDefault();
+  const fullName=document.getElementById("signupName").value.trim();
+  const email=document.getElementById("signupEmail").value.trim().toLowerCase();
+  const password=document.getElementById("signupPassword").value;
+  const confirm=document.getElementById("signupConfirm").value;
+  const error=document.getElementById("signupError");
+  const success=document.getElementById("signupSuccess");
+  const button=e.submitter || e.target.querySelector('button[type="submit"]');
+  error.classList.remove("show"); success.classList.remove("show");
+  if(password !== confirm){ error.textContent="Passwords do not match."; error.classList.add("show"); return; }
+  if(password.length < 8){ error.textContent="Password must be at least 8 characters."; error.classList.add("show"); return; }
+  if(button){button.disabled=true; button.textContent="Creating account...";}
+  try{
+    const client=getSupabase();
+    const {data, error:signError}=await client.auth.signUp({
+      email, password, options:{data:{full_name:fullName}}
+    });
+    if(signError) throw signError;
+    e.target.reset();
+    if(data.session){
+      const {data:profile}=await client.from("clients").select("id, user_id, full_name, email, membership_status").eq("user_id",data.user.id).single();
+      if(profile){ routeProfile(profile); closeSignup(); return; }
+    }
+    success.textContent="Account created. Check your email to confirm your address, then return here and sign in.";
+    success.classList.add("show");
+  }catch(err){
+    console.error(err);
+    error.textContent=err.message || "Unable to create account.";
+    error.classList.add("show");
+  }finally{ if(button){button.disabled=false; button.textContent="Create Account";} }
+}
+
+
+async function login(e){
+  e.preventDefault();
+  const email=document.getElementById("email").value.trim().toLowerCase();
+  const password=document.getElementById("password").value;
+  const error=document.getElementById("loginError");
+  const button=e.submitter || e.target.querySelector('button[type="submit"]');
+
+  error.classList.remove("show");
+  error.textContent="Invalid email or password.";
+  if(button){button.disabled=true; button.textContent="Signing in...";}
+
+  try{
+    const client=getSupabase();
+    const {data, error:authError}=await client.auth.signInWithPassword({email,password});
+    if(authError) throw authError;
+
+    const {data:profile, error:profileError}=await client
+      .from("clients")
+      .select("id, user_id, full_name, email, membership_status")
+      .eq("user_id", data.user.id)
+      .single();
+
+    if(profileError || !profile){
+      await client.auth.signOut();
+      throw new Error("No Resource360 client profile is linked to this account.");
+    }
+
+    routeProfile(profile);
+  }catch(err){
+    console.error(err);
+    error.textContent = err.message === "No Resource360 client profile is linked to this account."
+      ? err.message
+      : "Unable to sign in. Check your email and password.";
+    error.classList.add("show");
+  }finally{
+    if(button){button.disabled=false; button.textContent="Sign in";}
+  }
+}
+
+
+function routeProfile(profile){
+  currentClientProfile = profile || null;
+  const status=(profile && profile.membership_status ? profile.membership_status : "").trim().toLowerCase();
+
+  // Only Active memberships receive the full client dashboard.
+  if(status === "active"){
+    showDashboard(profile);
+  }else{
+    showPendingDashboard(profile);
+  }
+}
+
+function showPendingDashboard(profile){
+  closeLogin();
+  closeSignup();
+
+  document.getElementById("publicSite").style.display="none";
+  document.getElementById("publicHeader").style.display="none";
+  document.getElementById("publicFooter").style.display="none";
+  document.getElementById("portalApp").classList.remove("active");
+  document.getElementById("pendingPortalApp").classList.add("active");
+
+  const name=(profile && profile.full_name) ? profile.full_name : "Client";
+  const email=(profile && profile.email) ? profile.email : "—";
+  const status=(profile && profile.membership_status) ? profile.membership_status : "Pending";
+
+  document.getElementById("pendingName").textContent=name;
+  document.getElementById("pendingEmail").textContent=email;
+  document.getElementById("pendingStatus").textContent=status;
+  loadPendingFinancialHealthStatus();
+  loadFinancialHealthHistory("pendingFinancialHealthHistoryList");
+
+  window.scrollTo(0,0);
+}
+
+
+async function loadClientPrograms(){
+  const list=document.getElementById("clientProgramsList");
+  const metric=document.getElementById("dashProgram");
+
+  if(list){
+    list.innerHTML='<li><span>Loading your programs...</span><span class="badge">Please wait</span></li>';
+  }
+  if(metric) metric.textContent="Loading...";
+
+  try{
+    const client=getSupabase();
+    const {data:assignments, error}=await client
+      .from("client_programs")
+      .select(`
+        status,
+        started_at,
+        program_id,
+        programs (
+          name
+        )
+      `)
+      .order("started_at",{ascending:true});
+
+    if(error) throw error;
+
+    const rows=Array.isArray(assignments) ? assignments : [];
+
+    if(metric){
+      const activeCount=rows.filter(row =>
+        String(row.status || "").trim().toLowerCase() === "active"
+      ).length;
+
+      if(rows.length===0){
+        metric.textContent="None assigned";
+      }else if(activeCount===rows.length){
+        metric.textContent=`${activeCount} Active`;
+      }else{
+        metric.textContent=`${rows.length} Assigned`;
+      }
+    }
+
+    if(!list) return;
+
+    if(rows.length===0){
+      list.innerHTML='<li><span>No programs have been assigned yet.</span><span class="badge">Not assigned</span></li>';
+      return;
+    }
+
+    list.innerHTML="";
+
+    rows.forEach(row=>{
+      const li=document.createElement("li");
+      const name=document.createElement("span");
+      const badge=document.createElement("span");
+
+      const programName =
+        row.programs && row.programs.name
+          ? row.programs.name
+          : "Program";
+
+      const status =
+        row.status && String(row.status).trim()
+          ? String(row.status).trim()
+          : "Assigned";
+
+      name.textContent=programName;
+      badge.textContent=status;
+      badge.className="badge";
+
+      li.appendChild(name);
+      li.appendChild(badge);
+      list.appendChild(li);
+    });
+  }catch(err){
+    console.error("Unable to load client programs:",err);
+    if(metric) metric.textContent="Unavailable";
+    if(list){
+      list.innerHTML='<li><span>Unable to load your programs right now.</span><span class="badge">Retry later</span></li>';
+    }
+  }
+}
+
+
+let researchUpdatesCache=[];
+let activeResearchSection="Stocks";
+
+function setResearchSection(section){
+  activeResearchSection=section;
+  document.querySelectorAll(".research-tab").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.section===section);
+  });
+  renderResearchUpdates();
+}
+
+function formatResearchDate(value){
+  if(!value) return "";
+  const d=new Date(value);
+  if(Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+}
+
+function renderResearchUpdates(){
+  const list=document.getElementById("researchUpdatesList");
+  const summary=document.getElementById("researchSectionSummary");
+  if(!list) return;
+
+  const rows=researchUpdatesCache.filter(row=>String(row.research_section || "").trim()===activeResearchSection);
+  if(summary){
+    summary.textContent = rows.length===1
+      ? `1 ${activeResearchSection} update available`
+      : `${rows.length} ${activeResearchSection} updates available`;
+  }
+
+  if(rows.length===0){
+    list.innerHTML=`<li class="research-empty">No ${activeResearchSection} updates are available for your assigned programs yet.</li>`;
+    return;
+  }
+
+  list.innerHTML="";
+
+  rows.forEach((row,index)=>{
+    const li=document.createElement("li");
+    li.className="research-item";
+    if(index===0) li.classList.add("expanded");
+
+    const head=document.createElement("div");
+    head.className="research-head research-summary";
+
+    const left=document.createElement("div");
+    const title=document.createElement("div");
+    title.className="research-title";
+    title.textContent=row.title || row.symbol || "Research Update";
+
+    const meta=document.createElement("div");
+    meta.className="research-meta";
+    const metaParts=[];
+    if(row.symbol) metaParts.push(row.symbol);
+    const dateText=formatResearchDate(row.published_at);
+    if(dateText) metaParts.push(dateText);
+    meta.textContent=metaParts.join(" • ");
+
+    left.appendChild(title);
+    left.appendChild(meta);
+
+    const fundamentals=[];
+    if(row.shariah_compliant !== null && row.shariah_compliant !== undefined){
+      fundamentals.push(`Shariah: ${row.shariah_compliant ? "Yes" : "No"}`);
+    }
+    if(row.eps_status) fundamentals.push(`EPS: ${row.eps_status}`);
+    if(row.dividend !== null && row.dividend !== undefined){
+      fundamentals.push(`Dividend: ${row.dividend ? "Yes" : "No"}`);
+    }
+    if(fundamentals.length){
+      const el=document.createElement("div");
+      el.className="research-fundamentals";
+      el.textContent=fundamentals.join(" • ");
+      left.appendChild(el);
+    }
+
+    head.appendChild(left);
+
+    if(row.thesis_status){
+      const status=document.createElement("span");
+      status.className="research-status";
+      status.textContent=String(row.thesis_status).trim();
+      head.appendChild(status);
+    }
+
+    li.appendChild(head);
+
+    const toggle=document.createElement("button");
+    toggle.type="button";
+    toggle.className="research-toggle";
+    toggle.setAttribute("aria-expanded", index===0 ? "true" : "false");
+
+    const icon=document.createElement("span");
+    icon.className="research-toggle-icon";
+    icon.textContent="⌄";
+
+    const toggleText=document.createElement("span");
+    toggleText.textContent=index===0 ? "Collapse details" : "View details";
+
+    toggle.appendChild(icon);
+    toggle.appendChild(toggleText);
+    li.appendChild(toggle);
+
+    const details=document.createElement("div");
+    details.className="research-details";
+
+    if(row.buy_range_text){
+      const buy=document.createElement("div");
+      buy.className="research-buy";
+      const label=document.createElement("strong");
+      label.textContent="Buy Range";
+      const value=document.createElement("span");
+      value.textContent=row.buy_range_text;
+      buy.appendChild(label);
+      buy.appendChild(value);
+      details.appendChild(buy);
+    }
+
+    const hasLevels =
+      (row.tp1 !== null && row.tp1 !== undefined) ||
+      (row.tp2 !== null && row.tp2 !== undefined) ||
+      (row.tp3 !== null && row.tp3 !== undefined) ||
+      Boolean(row.stop_loss);
+
+    if(hasLevels){
+      const stack=document.createElement("div");
+      stack.className="research-level-stack";
+
+      [["TP1",row.tp1],["TP2",row.tp2],["TP3",row.tp3]].forEach(([label,value])=>{
+        if(value === null || value === undefined) return;
+        const line=document.createElement("div");
+        line.className="research-level-line target";
+        const l=document.createElement("strong");
+        l.textContent=label;
+        const v=document.createElement("span");
+        v.textContent=String(value);
+        line.appendChild(l);
+        line.appendChild(v);
+        stack.appendChild(line);
+      });
+
+      if(row.stop_loss){
+        const line=document.createElement("div");
+        line.className="research-level-line stop";
+        const l=document.createElement("strong");
+        l.textContent="SL";
+        const v=document.createElement("span");
+        v.textContent=String(row.stop_loss);
+        line.appendChild(l);
+        line.appendChild(v);
+        stack.appendChild(line);
+      }
+
+      details.appendChild(stack);
+    }
+
+    if(row.body){
+      const body=document.createElement("div");
+      body.className="research-body";
+      body.textContent=row.body;
+      details.appendChild(body);
+    }
+
+    if(row.status_note){
+      const note=document.createElement("div");
+      note.className="notice";
+      note.style.marginTop="10px";
+      note.textContent=row.status_note;
+      details.appendChild(note);
+    }
+
+    if(row.disclaimer){
+      const disclaimer=document.createElement("div");
+      disclaimer.className="research-disclaimer";
+      disclaimer.textContent=row.disclaimer;
+      details.appendChild(disclaimer);
+    }
+
+    li.appendChild(details);
+
+    function setExpanded(expanded){
+      li.classList.toggle("expanded",expanded);
+      toggle.setAttribute("aria-expanded",expanded ? "true" : "false");
+      toggleText.textContent=expanded ? "Collapse details" : "View details";
+    }
+
+    toggle.addEventListener("click",()=>setExpanded(!li.classList.contains("expanded")));
+    head.addEventListener("click",()=>setExpanded(!li.classList.contains("expanded")));
+
+    list.appendChild(li);
+  });
+}
+
+async function loadResearchUpdates(){
+  const list=document.getElementById("researchUpdatesList");
+  const metric=document.getElementById("researchMetric");
+  const summary=document.getElementById("researchSectionSummary");
+
+  if(list) list.innerHTML='<li class="research-item"><span>Loading your research...</span></li>';
+  if(metric) metric.textContent="Loading...";
+  if(summary) summary.textContent="Loading research...";
+
+  try{
+    const client=getSupabase();
+    const {data:updates, error}=await client
+      .from("research_updates")
+      .select(`
+        id,
+        research_section,
+        title,
+        symbol,
+        shariah_compliant,
+        eps_status,
+        dividend,
+        buy_range_text,
+        tp1,
+        tp2,
+        tp3,
+        stop_loss,
+        thesis_status,
+        status_note,
+        body,
+        disclaimer,
+        author_name,
+        published_at
+      `)
+      .order("published_at",{ascending:false});
+
+    if(error) throw error;
+
+    researchUpdatesCache=Array.isArray(updates) ? updates : [];
+    if(metric) metric.textContent = researchUpdatesCache.length === 1 ? "1 Update" : `${researchUpdatesCache.length} Updates`;
+    renderResearchUpdates();
+  }catch(err){
+    console.error("Unable to load research updates:",err);
+    researchUpdatesCache=[];
+    if(metric) metric.textContent="Unavailable";
+    if(summary) summary.textContent="Research is temporarily unavailable.";
+    if(list) list.innerHTML='<li class="research-item"><span>Unable to load research right now. Please try again later.</span></li>';
+  }
+}
+
+function showDashboard(profile){
+  closeLogin();
+  document.getElementById("publicSite").style.display="none";
+  document.getElementById("publicHeader").style.display="none";
+  document.getElementById("publicFooter").style.display="none";
+  document.getElementById("pendingPortalApp").classList.remove("active");
+  document.getElementById("portalApp").classList.add("active");
+
+  const name=(profile && profile.full_name) ? profile.full_name : "Client";
+  document.getElementById("dashName").textContent=name;
+  document.getElementById("welcomeName").textContent=name.split(" ")[0];
+  document.getElementById("avatar").textContent=name.charAt(0).toUpperCase();
+
+  loadClientPrograms();
+  loadResearchUpdates();
+  loadFinancialHealthStatus();
+  loadFinancialHealthHistory("financialHealthHistoryList");
+
+  window.scrollTo(0,0);
+}
+
+async function logout(){
+  try{ await getSupabase().auth.signOut(); }catch(e){ console.error(e); }
+  document.getElementById("portalApp").classList.remove("active");
+  document.getElementById("pendingPortalApp").classList.remove("active");
+  document.getElementById("financialHealthApp").classList.remove("active");
+  currentClientProfile=null;
+  financialHealthAssessment=null;
+  financialHealthIncomeSources=[];
+  financialHealthCache={household:null,cash:null,emergency:null,risk:null,longterm:null};
+  financialHealthEditingCompleted=false;
+  financialHealthHistory=[];
+  document.getElementById("publicSite").style.display="";
+  document.getElementById("publicHeader").style.display="";
+  document.getElementById("publicFooter").style.display="";
+  window.scrollTo(0,0);
+}
+
+
+/* ---------- Financial Health Check ---------- */
+const healthStepNames=["Introduction","Household Profile","Income & Stability","Cash-Flow Health","Emergency Resilience","Risk & Protection","Long-Term Security","Review","Completed","Financial Health Profile"];
+
+function fhLoading(on,text){const el=document.getElementById("fhLoading");if(text)document.getElementById("fhLoadingText").textContent=text;el.classList.toggle("hidden",!on)}
+function fhError(message){const el=document.getElementById("healthError");el.textContent=message||"Something went wrong.";el.classList.add("show");window.scrollTo({top:0,behavior:"smooth"})}
+function clearFhError(){document.getElementById("healthError").classList.remove("show")}
+function fhNum(id){const v=document.getElementById(id).value;return v===""?null:Number(v)}
+function fhText(id){const v=document.getElementById(id).value.trim();return v||null}
+function fhRadio(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value==="true":null}
+function setFhRadio(name,value){document.querySelectorAll(`input[name="${name}"]`).forEach(el=>el.checked=(value!==null&&value!==undefined&&String(value)===el.value))}
+function requireFhNum(id,label){const n=fhNum(id);if(n===null||!Number.isFinite(n)||n<0)throw new Error(`Please answer: ${label}`);return n}
+function requireFhRadio(name,label){const v=fhRadio(name);if(v===null)throw new Error(`Please answer: ${label}`);return v}
+function fhMoney(value){if(value===null||value===undefined||value==="")return "Not provided";return "PKR "+Number(value).toLocaleString("en-PK",{maximumFractionDigits:0})}
+function fhEsc(value){return String(value??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function setFhInput(id,value){const el=document.getElementById(id);if(el&&value!==null&&value!==undefined)el.value=value}
+
+function showHealthStep(step){
+  clearFhError();
+  document.querySelectorAll(".health-step").forEach(el=>el.classList.remove("active"));
+  const target=document.querySelector(`.health-step[data-health-step="${step}"]`);
+  if(target)target.classList.add("active");
+  document.getElementById("healthStepName").textContent=healthStepNames[step];
+  document.getElementById("healthStepCount").textContent=step===8?"Completed":step===9?"Results":`Step ${step+1} of 8`;
+  document.getElementById("healthProgressBar").style.width=((step===8||step===9)?100:Math.max(7,((step+1)/8)*100))+"%";
+  if(step===7){
+    buildHealthReview();
+    const btn=document.getElementById("fhSubmitBtn");
+    if(btn)btn.textContent=(financialHealthAssessment&&String(financialHealthAssessment.assessment_status||"").toLowerCase()==="completed")?"Save Changes":"Submit Financial Health Check";
+  }
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function isActiveMembership(){
+  return String((currentClientProfile&&currentClientProfile.membership_status)||"").trim().toLowerCase()==="active";
+}
+
+function formatFinancialHealthHistoryDate(value){
+  if(!value)return "Date unavailable";
+  const d=new Date(value);
+  if(Number.isNaN(d.getTime()))return "Date unavailable";
+  return d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+}
+
+function getFinancialHealthHistoryComparison(assessmentId){
+  if(!Array.isArray(financialHealthHistory)||!financialHealthHistory.length)return null;
+
+  const ordered=[...financialHealthHistory].reverse();
+  const currentIndex=ordered.findIndex(
+    item=>Number(item.assessment_id)===Number(assessmentId)
+  );
+  if(currentIndex<0)return null;
+
+  const current=ordered[currentIndex];
+  const currentScore=(current.overall_score===null||current.overall_score===undefined)
+    ? null
+    : Number(current.overall_score);
+
+  if(currentIndex===0){
+    return {
+      is_baseline:true,
+      current_assessment_number:1,
+      current_score:Number.isFinite(currentScore)?currentScore:null
+    };
+  }
+
+  const previous=ordered[currentIndex-1];
+  const previousScore=(previous.overall_score===null||previous.overall_score===undefined)
+    ? null
+    : Number(previous.overall_score);
+
+  if(!Number.isFinite(currentScore)||!Number.isFinite(previousScore))return null;
+
+  const change=currentScore-previousScore;
+  let resultLabel="Stable",resultClass="stable",arrow="→";
+  if(change>1){resultLabel="Improved";resultClass="improved";arrow="↑"}
+  else if(change<-1){resultLabel="Declined";resultClass="declined";arrow="↓"}
+
+  return {
+    is_baseline:false,
+    current_assessment_number:currentIndex+1,
+    previous_assessment_number:currentIndex,
+    current_score:currentScore,
+    previous_score:previousScore,
+    change,
+    resultLabel,
+    resultClass,
+    arrow
+  };
+}
+
+
+function buildFinancialHealthDimensionComparison(assessmentId){
+  if(!Array.isArray(financialHealthHistory)||!financialHealthHistory.length)return null;
+
+  const ordered=[...financialHealthHistory].reverse();
+  const currentIndex=ordered.findIndex(
+    item=>Number(item.assessment_id)===Number(assessmentId)
+  );
+
+  if(currentIndex<=0)return null;
+
+  const current=ordered[currentIndex];
+  const previous=ordered[currentIndex-1];
+
+  const currentDimensions=Array.isArray(current.dimensions)?current.dimensions:[];
+  const previousDimensions=Array.isArray(previous.dimensions)?previous.dimensions:[];
+
+  if(!currentDimensions.length||!previousDimensions.length)return null;
+
+  const previousMap=new Map(
+    previousDimensions.map(d=>[Number(d.dimension_number),d])
+  );
+
+  const compared=currentDimensions.map(currentDimension=>{
+    const previousDimension=previousMap.get(Number(currentDimension.dimension_number));
+    if(!previousDimension)return null;
+
+    const currentScore=Number(currentDimension.score);
+    const previousScore=Number(previousDimension.score);
+
+    if(!Number.isFinite(currentScore)||!Number.isFinite(previousScore))return null;
+
+    const change=currentScore-previousScore;
+    const currentBand=String(currentDimension.band||"").trim();
+    const currentPriority=String(currentDimension.priority_class||"").trim();
+
+    let status="stable";
+    let label="Stable";
+    let arrow="→";
+
+    if(change>1){
+      status="improved";
+      label="Improved";
+      arrow="↑";
+    }else if(change<-1){
+      status="declined";
+      label="Declined";
+      arrow="↓";
+    }else{
+      const strongBand=["strong","very strong"].includes(currentBand.toLowerCase());
+      if(strongBand){
+        status="maintained";
+        label="Strength Maintained";
+        arrow="✓";
+      }else{
+        status="stable";
+        label="Stable";
+        arrow="→";
+      }
+    }
+
+    return {
+      dimension_number:Number(currentDimension.dimension_number),
+      dimension_name:currentDimension.dimension_name||`Dimension ${currentDimension.dimension_number}`,
+      previous_score:previousScore,
+      current_score:currentScore,
+      change,
+      current_band:currentBand,
+      current_priority:currentPriority,
+      status,
+      label,
+      arrow
+    };
+  }).filter(Boolean);
+
+  return {
+    improved:compared.filter(x=>x.status==="improved"),
+    declined:compared.filter(x=>x.status==="declined"),
+    maintained:compared.filter(x=>x.status==="maintained"),
+    stable:compared.filter(x=>x.status==="stable")
+  };
+}
+
+function renderFinancialHealthDimensionRow(item){
+  const changeText=`${item.change>0?"+":""}${item.change.toFixed(2)}`;
+  const cssClass=item.status==="maintained"?"stable":item.status;
+  return `
+    <div class="health-progress-dimension">
+      <div class="health-progress-dimension-head">
+        <div class="health-progress-dimension-name">
+          ${profileEsc(item.dimension_number)}. ${profileEsc(item.dimension_name)}
+        </div>
+        <div class="health-progress-dimension-change ${cssClass}">
+          ${profileEsc(changeText)} ${item.arrow} ${profileEsc(item.label)}
+        </div>
+      </div>
+      <div class="health-progress-dimension-meta">
+        ${profileEsc(item.previous_score.toFixed(2))} → ${profileEsc(item.current_score.toFixed(2))}
+        ${item.current_band?` · Current band: ${profileEsc(item.current_band)}`:""}
+        ${item.current_priority?` · ${profileEsc(item.current_priority)}`:""}
+      </div>
+    </div>`;
+}
+
+function renderFinancialHealthProgressGroup(title,items){
+  const rows=Array.isArray(items)?items:[];
+  if(!rows.length)return "";
+  return `
+    <div class="health-progress-group">
+      <div class="health-progress-group-title">
+        <strong>${profileEsc(title)}</strong>
+        <span class="health-progress-group-count">${rows.length}</span>
+      </div>
+      <div class="health-progress-dimension-list">
+        ${rows.map(renderFinancialHealthDimensionRow).join("")}
+      </div>
+    </div>`;
+}
+
+function toggleFinancialHealthProgress(assessmentId){
+  const panel=document.getElementById(`healthProgressPanel-${assessmentId}`);
+  const button=document.getElementById(`healthProgressBtn-${assessmentId}`);
+  if(!panel||!button)return;
+  const opening=!panel.classList.contains("open");
+  panel.classList.toggle("open",opening);
+  button.textContent=opening?"Hide Progress ▴":"View Progress ▾";
+  button.setAttribute("aria-expanded",opening?"true":"false");
+}
+
+function renderFinancialHealthHistory(targetId){
+  const list=document.getElementById(targetId);
+  if(!list)return;
+  if(!Array.isArray(financialHealthHistory)||!financialHealthHistory.length){
+    list.innerHTML='<div class="health-history-empty">No completed assessments yet. Your completed Financial Health Checks will appear here.</div>';
+    return;
+  }
+  const totalAssessments=financialHealthHistory.length;
+
+  list.innerHTML=financialHealthHistory.map((item,index)=>{
+    const current=index===0;
+    const userAssessmentNumber=totalAssessments-index;
+    const score=(item.overall_score===null||item.overall_score===undefined)?"Profile pending":`${Number(item.overall_score).toFixed(2)} / 100`;
+    const band=item.overall_band||"";
+
+    let progressHtml="";
+    if(current){
+      const comparison=getFinancialHealthHistoryComparison(item.assessment_id);
+
+      if(comparison && !comparison.is_baseline){
+        const changeText=`${comparison.change>0?"+":""}${comparison.change.toFixed(2)} points`;
+
+        progressHtml=`
+          <div class="health-history-progress">
+            <span class="health-history-progress-badge ${comparison.resultClass}">
+              ${profileEsc(changeText)} ${comparison.arrow} ${profileEsc(comparison.resultLabel)}
+            </span>
+            <span class="health-history-progress-since">
+              since Assessment ${profileEsc(comparison.previous_assessment_number)}
+            </span>
+          </div>
+          <button
+            id="healthProgressBtn-${Number(item.assessment_id)}"
+            class="health-history-progress-toggle"
+            type="button"
+            aria-expanded="false"
+            onclick="toggleFinancialHealthProgress(${Number(item.assessment_id)})"
+          >View Progress ▾</button>
+          <div id="healthProgressPanel-${Number(item.assessment_id)}" class="health-history-progress-panel">
+            <h4>Financial Health Progress Review</h4>
+            <div class="health-history-progress-overall">
+              <strong>Assessment ${profileEsc(comparison.previous_assessment_number)} → Assessment ${profileEsc(comparison.current_assessment_number)}</strong>
+              <span>${profileEsc(comparison.previous_score.toFixed(2))} → ${profileEsc(comparison.current_score.toFixed(2))}</span>
+              <span class="health-history-progress-badge ${comparison.resultClass}">
+                ${profileEsc(changeText)} ${comparison.arrow} ${profileEsc(comparison.resultLabel)}
+              </span>
+            </div>
+            ${(()=>{
+              const dimensionComparison=buildFinancialHealthDimensionComparison(item.assessment_id);
+              if(!dimensionComparison){
+                return `<div class="health-history-progress-note">Dimension comparison is not available for these assessments.</div>`;
+              }
+
+              return `
+                <div class="health-progress-groups">
+                  ${renderFinancialHealthProgressGroup("Improved",dimensionComparison.improved)}
+                  ${renderFinancialHealthProgressGroup("Declined",dimensionComparison.declined)}
+                  ${renderFinancialHealthProgressGroup("Strengths Maintained",dimensionComparison.maintained)}
+                  ${renderFinancialHealthProgressGroup("Stable — Still Needs Attention",dimensionComparison.stable)}
+                </div>`;
+            })()}
+          </div>`;
+      }else if(comparison?.is_baseline){
+        progressHtml=`
+          <div class="health-history-progress">
+            <span class="health-history-progress-badge stable">Baseline Assessment</span>
+          </div>`;
+      }
+    }
+
+    return `<div class="health-history-item${current?" current":""}"><div><div class="health-history-title"><strong>${profileEsc(formatFinancialHealthHistoryDate(item.completed_at))}</strong>${current?'<span class="health-current-badge">Current</span>':""}</div><div class="health-history-meta">Assessment ${profileEsc(userAssessmentNumber)} · Version ${profileEsc(item.assessment_version||FINANCIAL_HEALTH_VERSION)}</div><div class="health-history-score"><strong>${profileEsc(score)}</strong>${band?` · ${profileEsc(band)}`:""}</div>${progressHtml}</div><div class="health-history-actions"><button class="btn btn-outline" type="button" onclick="openFinancialHealthHistory(${Number(item.assessment_id)})">View Profile</button></div></div>`;
+  }).join("");
+}
+
+async function loadFinancialHealthHistory(targetId){
+  const list=document.getElementById(targetId);
+  if(!list)return;
+  list.innerHTML='<div class="health-history-empty">Loading assessment history…</div>';
+  if(!currentClientProfile||!currentClientProfile.id){financialHealthHistory=[];renderFinancialHealthHistory(targetId);return;}
+  try{
+    const client=getSupabase();
+
+    const {data:assessments,error:assessmentError}=await client
+      .from("financial_health_assessments")
+      .select("id, assessment_version, completed_at, created_at")
+      .eq("client_id",currentClientProfile.id)
+      .eq("assessment_status","Completed")
+      .order("completed_at",{ascending:false});
+
+    if(assessmentError)throw assessmentError;
+
+    const rows=Array.isArray(assessments)?assessments:[];
+
+    const assessmentIds=rows.map(a=>a.id);
+
+    let profileRows=[];
+    let clientProfileRows=[];
+
+    if(assessmentIds.length){
+      const [profileResult,clientProfileResult]=await Promise.all([
+        client
+          .from("financial_health_profile")
+          .select("assessment_id, overall_financial_health_score, overall_financial_health_band, completed_at")
+          .eq("client_id",currentClientProfile.id)
+          .in("assessment_id",assessmentIds),
+
+        client
+          .from("financial_health_client_profile")
+          .select("assessment_id, overall_score, overall_band, dimensions")
+          .eq("client_id",currentClientProfile.id)
+          .in("assessment_id",assessmentIds)
+      ]);
+
+      if(profileResult.error)throw profileResult.error;
+      if(clientProfileResult.error)throw clientProfileResult.error;
+
+      profileRows=Array.isArray(profileResult.data)?profileResult.data:[];
+      clientProfileRows=Array.isArray(clientProfileResult.data)?clientProfileResult.data:[];
+    }
+
+    const profileMap=new Map(
+      profileRows.map(p=>[Number(p.assessment_id),p])
+    );
+    const clientProfileMap=new Map(
+      clientProfileRows.map(p=>[Number(p.assessment_id),p])
+    );
+
+    financialHealthHistory=rows.map(a=>{
+      const p=profileMap.get(Number(a.id))||{};
+      const cp=clientProfileMap.get(Number(a.id))||{};
+      return {
+        assessment_id:a.id,
+        assessment_version:a.assessment_version,
+        completed_at:a.completed_at||p.completed_at||a.created_at,
+        overall_score:cp.overall_score??p.overall_financial_health_score??null,
+        overall_band:cp.overall_band||p.overall_financial_health_band||null,
+        dimensions:Array.isArray(cp.dimensions)?cp.dimensions:[]
+      };
+    });
+
+    renderFinancialHealthHistory(targetId);
+  }catch(err){
+    console.error("Unable to load financial health history:",err);
+    financialHealthHistory=[];
+    list.innerHTML='<div class="health-history-empty">Assessment history is temporarily unavailable. Please try again later.</div>';
+  }
+}
+
+
+function getOverallFinancialHealthComparisonFromHistory(assessmentId,currentScore){
+  if(!Array.isArray(financialHealthHistory) || !financialHealthHistory.length){
+    return null;
+  }
+
+  // History is stored newest first. Convert to oldest first so
+  // user-facing Assessment 1 is index 0, Assessment 2 is index 1, etc.
+  const ordered=[...financialHealthHistory].reverse();
+
+  const currentIndex=ordered.findIndex(
+    item=>Number(item.assessment_id)===Number(assessmentId)
+  );
+
+  if(currentIndex===-1){
+    return null;
+  }
+
+  if(currentIndex===0){
+    return {
+      is_baseline:true,
+      current_assessment_number:1,
+      previous_assessment_number:null,
+      previous_score:null,
+      current_score:Number(currentScore)
+    };
+  }
+
+  const previous=ordered[currentIndex-1];
+  const previousScore=
+    previous.overall_score===null || previous.overall_score===undefined
+      ? null
+      : Number(previous.overall_score);
+
+  return {
+    is_baseline:false,
+    current_assessment_number:currentIndex+1,
+    previous_assessment_number:currentIndex,
+    previous_score:Number.isFinite(previousScore)?previousScore:null,
+    current_score:Number(currentScore)
+  };
+}
+
+function renderOverallFinancialHealthComparison(comparison){
+  if(!comparison){
+    return "";
+  }
+
+  if(comparison.is_baseline){
+    return `
+      <div class="health-progress-baseline">
+        <strong>Baseline Assessment</strong><br>
+        This is your first Financial Health Profile. Your next completed assessment will show how your overall financial health has changed.
+      </div>`;
+  }
+
+  if(
+    comparison.previous_score===null ||
+    comparison.previous_score===undefined ||
+    !Number.isFinite(Number(comparison.previous_score)) ||
+    !Number.isFinite(Number(comparison.current_score))
+  ){
+    return "";
+  }
+
+  const previousScore=Number(comparison.previous_score);
+  const currentScore=Number(comparison.current_score);
+  const change=currentScore-previousScore;
+
+  let resultLabel="Stable";
+  let resultClass="stable";
+  let arrow="→";
+
+  if(change>1){
+    resultLabel="Improved";
+    resultClass="improved";
+    arrow="↑";
+  }else if(change<-1){
+    resultLabel="Declined";
+    resultClass="declined";
+    arrow="↓";
+  }
+
+  const changeText=`${change>0?"+":""}${change.toFixed(2)} points`;
+
+  return `
+    <div class="health-progress-compare">
+      <div class="health-progress-compare-label">
+        Compared with Assessment ${profileEsc(comparison.previous_assessment_number)}
+      </div>
+      <div class="health-progress-compare-row">
+        <span class="health-progress-compare-scores">
+          ${profileEsc(previousScore.toFixed(2))} → ${profileEsc(currentScore.toFixed(2))}
+        </span>
+        <span class="health-progress-change ${resultClass}">
+          ${profileEsc(changeText)} ${arrow} ${resultLabel}
+        </span>
+      </div>
+    </div>`;
+}
+
+async function openFinancialHealthHistory(assessmentId){
+  try{
+    clearFhError();financialHealthEditingCompleted=false;
+    if(!currentClientProfile||!currentClientProfile.id)throw new Error("Your client profile is not available.");
+    fhLoading(true,"Loading selected Financial Health Profile…");
+    const {data:assessment,error:assessmentError}=await getSupabase().from("financial_health_assessments").select("*").eq("id",assessmentId).eq("client_id",currentClientProfile.id).eq("assessment_status","Completed").maybeSingle();
+    if(assessmentError)throw assessmentError;
+    if(!assessment)throw new Error("This completed assessment is not available.");
+    financialHealthAssessment=assessment;
+    resetFinancialHealthLocal();
+    document.getElementById("healthConsent").checked=!!financialHealthAssessment.consent_given;
+    await loadFinancialHealthData();
+    const {data:profile,error:profileError}=await getSupabase().from("financial_health_client_profile").select("*").eq("assessment_id",assessmentId).eq("client_id",currentClientProfile.id).maybeSingle();
+    if(profileError)throw profileError;
+    if(!profile)throw new Error("The Financial Health Profile for this assessment is not available.");
+    document.getElementById("portalApp").classList.remove("active");
+    document.getElementById("pendingPortalApp").classList.remove("active");
+    document.getElementById("financialHealthApp").classList.add("active");
+    renderFinancialHealthProfile(profile,assessmentId);
+    showHealthStep(9);
+  }catch(err){console.error(err);fhError(err.message||"Unable to load the selected Financial Health Profile.");}
+  finally{fhLoading(false)}
+}
+
+async function loadPendingFinancialHealthStatus(){
+  const statusEl=document.getElementById("pendingHealthStatus"),button=document.getElementById("pendingHealthActionBtn"),newButton=document.getElementById("pendingHealthNewBtn");
+  if(!statusEl||!button)return;
+  if(!currentClientProfile||!currentClientProfile.id){statusEl.textContent="Unavailable";button.disabled=true;if(newButton)newButton.style.display="none";return}
+  try{
+    const {data,error}=await getSupabase().from("financial_health_assessments").select("*").eq("client_id",currentClientProfile.id).neq("assessment_status","Deleted").order("created_at",{ascending:false}).limit(1).maybeSingle();
+    if(error)throw error;
+    financialHealthAssessment=data||null;
+    statusEl.classList.remove("done");
+    if(newButton)newButton.style.display="none";
+    if(!data){statusEl.textContent="Not started";button.textContent="Start Health Check"}
+    else if(String(data.assessment_status||"").toLowerCase()==="completed"){statusEl.textContent="Completed";statusEl.classList.add("done");button.textContent="View Results";if(newButton)newButton.style.display="inline-flex"}
+    else{statusEl.textContent="In progress";button.textContent="Resume Health Check"}
+  }catch(err){console.error("Unable to load pending financial health status:",err);statusEl.textContent="Status unavailable";button.textContent="Open Health Check";if(newButton)newButton.style.display="none"}
+}
+
+async function loadFinancialHealthStatus(){
+  const statusEl=document.getElementById("healthStatus"),button=document.getElementById("healthActionBtn"),newButton=document.getElementById("healthNewBtn");
+  if(!currentClientProfile||!currentClientProfile.id){if(statusEl)statusEl.textContent="Unavailable";if(button)button.disabled=true;if(newButton)newButton.style.display="none";return}
+  try{
+    const {data,error}=await getSupabase().from("financial_health_assessments").select("*").eq("client_id",currentClientProfile.id).neq("assessment_status","Deleted").order("created_at",{ascending:false}).limit(1).maybeSingle();
+    if(error)throw error;
+    financialHealthAssessment=data||null;
+    if(!statusEl||!button)return;
+    statusEl.classList.remove("done");
+    if(newButton)newButton.style.display="none";
+    if(!data){statusEl.textContent="Not started";button.textContent="Start Health Check"}
+    else if(String(data.assessment_status||"").toLowerCase()==="completed"){
+      statusEl.textContent="Completed";statusEl.classList.add("done");button.textContent="View Health Check";
+      if(newButton)newButton.style.display="inline-flex";
+    }else{statusEl.textContent="In progress";button.textContent="Resume Health Check"}
+  }catch(err){console.error("Unable to load financial health status:",err);if(statusEl)statusEl.textContent="Status unavailable";if(button)button.textContent="Open Health Check";if(newButton)newButton.style.display="none"}
+}
+
+async function openFinancialHealth(){
+  try{
+    clearFhError();financialHealthEditingCompleted=false;
+    if(!currentClientProfile||!currentClientProfile.id)throw new Error("Your client profile is not available.");
+    fhLoading(true,"Loading your Financial Health Check…");
+    document.getElementById("portalApp").classList.remove("active");
+    document.getElementById("pendingPortalApp").classList.remove("active");
+    document.getElementById("financialHealthApp").classList.add("active");
+    const {data,error}=await getSupabase().from("financial_health_assessments").select("*").eq("client_id",currentClientProfile.id).neq("assessment_status","Deleted").order("created_at",{ascending:false}).limit(1).maybeSingle();
+    if(error)throw error;
+    financialHealthAssessment=data||null;
+    if(!financialHealthAssessment){resetFinancialHealthLocal();showHealthStep(0);return}
+    document.getElementById("healthConsent").checked=!!financialHealthAssessment.consent_given;
+    await loadFinancialHealthData();
+    if(String(financialHealthAssessment.assessment_status||"").toLowerCase()==="completed")showHealthStep(8);
+    else showHealthStep(firstIncompleteHealthStep());
+  }catch(err){console.error(err);fhError(err.message||"Unable to load the Financial Health Check.")}
+  finally{fhLoading(false)}
+}
+function closeFinancialHealth(){document.getElementById("financialHealthApp").classList.remove("active");financialHealthEditingCompleted=false;if(isActiveMembership()){document.getElementById("portalApp").classList.add("active");loadFinancialHealthStatus();loadFinancialHealthHistory("financialHealthHistoryList")}else{document.getElementById("pendingPortalApp").classList.add("active");loadPendingFinancialHealthStatus();loadFinancialHealthHistory("pendingFinancialHealthHistoryList")}window.scrollTo(0,0)}
+function clearFinancialHealthForm(){
+  document.querySelectorAll("#financialHealthApp input").forEach(el=>{if(el.type==="radio"||el.type==="checkbox")el.checked=false;else el.value=""});
+  document.querySelectorAll("#financialHealthApp select").forEach(el=>el.selectedIndex=0);
+  ["fhSalaryFields","fhEndDateWrap","fhExternalSupportFields","fhExternalSupportEndDateWrap","fhEmergencyAmountWrap","fhHealthCoverageFields","fhLifeInsuranceFields","fhHomeFinancingWrap"].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove("show")});
+  const editor=document.getElementById("fhIncomeEditor");if(editor)editor.style.display="none";
+}
+function resetFinancialHealthLocal(){financialHealthIncomeSources=[];financialHealthCache={household:null,cash:null,emergency:null,risk:null,longterm:null};clearFinancialHealthForm();renderHealthIncomeList()}
+function startNewFinancialHealth(){
+  financialHealthAssessment=null;financialHealthEditingCompleted=false;resetFinancialHealthLocal();
+  document.getElementById("portalApp").classList.remove("active");document.getElementById("pendingPortalApp").classList.remove("active");document.getElementById("financialHealthApp").classList.add("active");showHealthStep(0);
+}
+function editCompletedHealthAssessment(){
+  if(!financialHealthAssessment)return;
+  financialHealthEditingCompleted=true;
+  const btn=document.getElementById("fhSubmitBtn");if(btn)btn.textContent="Save Changes";
+  showHealthStep(1);
+}
+async function deleteFinancialHealthAssessment(){
+  if(!financialHealthAssessment)return;
+  const ok=confirm("Delete this assessment from your Resource360 history? This cannot be undone from the client portal.");
+  if(!ok)return;
+  try{
+    fhLoading(true,"Deleting assessment…");
+    const {error}=await getSupabase().from("financial_health_assessments").update({assessment_status:"Deleted"}).eq("id",financialHealthAssessment.id);
+    if(error)throw error;
+    financialHealthAssessment=null;financialHealthEditingCompleted=false;resetFinancialHealthLocal();closeFinancialHealth();
+  }catch(err){fhError(err.message||"Unable to delete this assessment.")}finally{fhLoading(false)}
+}
+function firstIncompleteHealthStep(){
+  if(!financialHealthAssessment || !financialHealthAssessment.consent_given) return 0;
+  if(!financialHealthCache.household) return 1;
+
+  const incomeReceivers = Number(
+    financialHealthCache.household?.income_receiving_members ?? 0
+  );
+
+  if(incomeReceivers > 0 && !financialHealthIncomeSources.length) return 2;
+
+  if(!financialHealthCache.cash) return 3;
+  if(!financialHealthCache.emergency) return 4;
+  if(!financialHealthCache.risk) return 5;
+  if(!financialHealthCache.longterm) return 6;
+
+  return 7;
+}
+
+async function startHealthAssessment(){
+  try{
+    clearFhError();if(!document.getElementById("healthConsent").checked)throw new Error("Please confirm your consent before continuing.");
+    fhLoading(true,"Starting your assessment…");
+    if(!financialHealthAssessment){
+      const payload={client_id:currentClientProfile.id,assessment_status:"In Progress",assessment_version:FINANCIAL_HEALTH_VERSION,consent_given:true,consent_given_at:new Date().toISOString(),consent_version:FINANCIAL_HEALTH_VERSION,started_at:new Date().toISOString()};
+      const {data,error}=await getSupabase().from("financial_health_assessments").insert(payload).select().single();if(error)throw error;financialHealthAssessment=data;
+    }else{
+      const updates={consent_given:true,consent_given_at:financialHealthAssessment.consent_given_at||new Date().toISOString(),started_at:financialHealthAssessment.started_at||new Date().toISOString()};
+      const {data,error}=await getSupabase().from("financial_health_assessments").update(updates).eq("id",financialHealthAssessment.id).select().single();if(error)throw error;financialHealthAssessment=data;
+    }
+    showHealthStep(1);
+  }catch(err){fhError(err.message)}finally{fhLoading(false)}
+}
+
+async function loadFinancialHealthData(){
+  const aid=financialHealthAssessment.id;
+  const [h,i,c,e,r,l]=await Promise.all([
+    getSupabase().from("financial_health_household").select("*").eq("assessment_id",aid).maybeSingle(),
+    getSupabase().from("financial_health_income_sources").select("*").eq("assessment_id",aid).eq("is_currently_active",true).order("created_at",{ascending:true}),
+    getSupabase().from("financial_health_cash_flow").select("*").eq("assessment_id",aid).maybeSingle(),
+    getSupabase().from("financial_health_emergency_resilience").select("*").eq("assessment_id",aid).maybeSingle(),
+    getSupabase().from("financial_health_risk_protection").select("*").eq("assessment_id",aid).maybeSingle(),
+    getSupabase().from("financial_health_long_term_security").select("*").eq("assessment_id",aid).maybeSingle()
+  ]);
+  for(const result of [h,i,c,e,r,l])if(result.error)throw result.error;
+  financialHealthCache={household:h.data||null,cash:c.data||null,emergency:e.data||null,risk:r.data||null,longterm:l.data||null};financialHealthIncomeSources=i.data||[];
+  fillHealthHousehold();renderHealthIncomeList();fillHealthCash();fillHealthEmergency();fillHealthRisk();fillHealthLongTerm();
+}
+
+function toggleExternalSupportFields(){
+  const amount=fhNum("fh_monthly_external_support")||0;
+  const wrap=document.getElementById("fhExternalSupportFields");
+  if(wrap)wrap.classList.toggle("show",amount>0);
+  if(amount<=0){
+    const regularity=document.getElementById("fh_external_support_regularity");
+    const years=document.getElementById("fh_external_support_tenure_years");
+    const months=document.getElementById("fh_external_support_tenure_months");
+    const endDate=document.getElementById("fh_external_support_expected_end_date");
+    if(regularity)regularity.value="";
+    if(years)years.value="";
+    if(months)months.value="";
+    setFhRadio("fh_external_support_has_end_date",null);
+    if(endDate)endDate.value="";
+    toggleExternalSupportEndDate();
+  }
+}
+function toggleExternalSupportEndDate(){
+  const wrap=document.getElementById("fhExternalSupportEndDateWrap");
+  if(wrap)wrap.classList.toggle("show",fhRadio("fh_external_support_has_end_date")===true);
+}
+function fillHealthHousehold(){
+  const x=financialHealthCache.household;if(!x)return;
+  ["household_members","income_receiving_members","fully_dependent_members","partially_dependent_members","non_dependent_members","dependent_children","monthly_household_expenses","monthly_debt_payments","monthly_recurring_medical_costs","monthly_external_support"].forEach(k=>setFhInput("fh_"+k,x[k]));
+  setFhInput("fh_external_support_regularity",x.external_support_regularity);
+  if(x.external_support_tenure_months!==null&&x.external_support_tenure_months!==undefined){
+    const total=Number(x.external_support_tenure_months||0);
+    setFhInput("fh_external_support_tenure_years",Math.floor(total/12));
+    setFhInput("fh_external_support_tenure_months",total%12);
+  }
+  setFhRadio("fh_external_support_has_end_date",x.external_support_expected_end_date?true:false);
+  setFhInput("fh_external_support_expected_end_date",x.external_support_expected_end_date);
+  toggleExternalSupportFields();
+  toggleExternalSupportEndDate();
+}
+async function saveHealthHousehold(){
+  try{
+    clearFhError();
+    const externalSupport=requireFhNum("fh_monthly_external_support","regular external support");
+    let supportRegularity=null,supportTenure=null,supportExpectedEndDate=null;
+    if(externalSupport>0){
+      supportRegularity=fhText("fh_external_support_regularity");
+      if(!supportRegularity)throw new Error("Please select how regular the external financial support is.");
+      const supportYears=requireFhNum("fh_external_support_tenure_years","external support tenure in years");
+      const supportMonths=requireFhNum("fh_external_support_tenure_months","external support tenure in months");
+      if(!Number.isInteger(supportYears)||!Number.isInteger(supportMonths)||supportMonths>11)throw new Error("Enter external support tenure as whole years and 0–11 months.");
+      supportTenure=supportYears*12+supportMonths;
+      const hasSupportEnd=requireFhRadio("fh_external_support_has_end_date","whether the external support has a known end date");
+      supportExpectedEndDate=hasSupportEnd?fhText("fh_external_support_expected_end_date"):null;
+      if(hasSupportEnd&&!supportExpectedEndDate)throw new Error("Please enter the expected end date for the external support.");
+    }
+    const payload={assessment_id:financialHealthAssessment.id,household_members:requireFhNum("fh_household_members","household members"),income_receiving_members:requireFhNum("fh_income_receiving_members","income-receiving members"),fully_dependent_members:requireFhNum("fh_fully_dependent_members","fully dependent members"),partially_dependent_members:requireFhNum("fh_partially_dependent_members","partially dependent members"),non_dependent_members:requireFhNum("fh_non_dependent_members","financially self-sufficient members"),dependent_children:requireFhNum("fh_dependent_children","dependent children"),monthly_household_expenses:requireFhNum("fh_monthly_household_expenses","essential monthly household expenses"),monthly_debt_payments:requireFhNum("fh_monthly_debt_payments","monthly debt payments"),monthly_recurring_medical_costs:requireFhNum("fh_monthly_recurring_medical_costs","recurring medical costs"),monthly_external_support:externalSupport,external_support_regularity:supportRegularity,external_support_tenure_months:supportTenure,external_support_expected_end_date:supportExpectedEndDate};
+    if(!Number.isInteger(payload.household_members)||payload.household_members<1)throw new Error("Household members must be a whole number greater than zero.");
+    for(const k of ["income_receiving_members","fully_dependent_members","partially_dependent_members","non_dependent_members","dependent_children"])if(!Number.isInteger(payload[k]))throw new Error("Household member counts must be whole numbers.");
+    if(payload.income_receiving_members>payload.household_members)throw new Error("Income-receiving members cannot exceed total household members.");
+    if(payload.fully_dependent_members+payload.partially_dependent_members+payload.non_dependent_members!==payload.household_members)throw new Error("Fully dependent + partially dependent + financially self-sufficient members should equal total household members.");
+    if(payload.dependent_children>payload.fully_dependent_members+payload.partially_dependent_members)throw new Error("Dependent children cannot exceed total dependent household members.");
+    fhLoading(true,"Saving household profile…");
+    const result=financialHealthCache.household?await getSupabase().from("financial_health_household").update(payload).eq("assessment_id",financialHealthAssessment.id).select().single():await getSupabase().from("financial_health_household").insert(payload).select().single();
+    if(result.error)throw result.error;financialHealthCache.household=result.data;showHealthStep(2);
+  }catch(err){fhError(err.message)}finally{fhLoading(false)}
+}
+
+function renderHealthIncomeList(){
+  const list=document.getElementById("fhIncomeList");if(!list)return;
+
+  const incomeReceivers=Number(
+    financialHealthCache.household?.income_receiving_members ?? 0
+  );
+
+  if(!financialHealthIncomeSources.length){
+    if(incomeReceivers===0){
+      list.innerHTML='<div class="health-success"><strong>No current income — that is okay.</strong><br>Periods without active income can happen. Resource360 will assess your household based on its current situation and help identify practical areas to focus on next. You do not need to add an income source if no one in the household is currently earning.</div>';
+    }else{
+      list.innerHTML='<div class="notice">No income sources added yet. Add at least one current household income source before continuing.</div>';
+    }
+    return;
+  }
+
+  list.innerHTML=financialHealthIncomeSources.map(x=>`<div class="income-item"><div><strong>${fhEsc(x.income_source_description||x.income_source_type)}</strong><div class="income-meta">${fhEsc(x.income_source_type)} · ${fhMoney(x.monthly_income)} / month · ${fhEsc(x.income_regularity)}</div></div><div class="income-actions"><button class="tiny" type="button" onclick="editHealthIncome(${x.id})">Edit</button><button class="tiny danger" type="button" onclick="deleteHealthIncome(${x.id})">Delete</button></div></div>`).join("")
+}
+function newHealthIncome(){
+  document.getElementById("fhIncomeEditor").style.display="block";document.getElementById("fhIncomeEditorTitle").textContent="Add income source";document.getElementById("fh_income_id").value="";
+  ["fh_income_source_type","fh_monthly_income","fh_income_regularity","fh_tenure_years","fh_tenure_months","fh_employment_type","fh_expected_end_date","fh_income_source_description"].forEach(id=>document.getElementById(id).value="");
+  ["fh_is_pensionable","fh_has_retirement_benefits","fh_has_end_date","fh_is_independent_income_source"].forEach(n=>setFhRadio(n,null));toggleHealthSalaryFields();toggleHealthEndDate()
+}
+function cancelHealthIncome(){document.getElementById("fhIncomeEditor").style.display="none"}
+function editHealthIncome(id){
+  const x=financialHealthIncomeSources.find(row=>Number(row.id)===Number(id));if(!x)return;newHealthIncome();document.getElementById("fhIncomeEditorTitle").textContent="Edit income source";document.getElementById("fh_income_id").value=x.id;
+  document.getElementById("fh_income_source_type").value=x.income_source_type;document.getElementById("fh_monthly_income").value=x.monthly_income;document.getElementById("fh_income_regularity").value=x.income_regularity;document.getElementById("fh_tenure_years").value=Math.floor(Number(x.source_tenure_months||0)/12);document.getElementById("fh_tenure_months").value=Number(x.source_tenure_months||0)%12;document.getElementById("fh_employment_type").value=x.employment_type||"";setFhRadio("fh_is_pensionable",x.is_pensionable);setFhRadio("fh_has_retirement_benefits",x.has_retirement_benefits);setFhRadio("fh_has_end_date",!!x.expected_end_date);document.getElementById("fh_expected_end_date").value=x.expected_end_date||"";setFhRadio("fh_is_independent_income_source",x.is_independent_income_source);document.getElementById("fh_income_source_description").value=x.income_source_description||"";toggleHealthSalaryFields();toggleHealthEndDate()
+}
+function toggleHealthSalaryFields(){document.getElementById("fhSalaryFields").classList.toggle("show",document.getElementById("fh_income_source_type").value==="Salary")}
+function toggleHealthEndDate(){document.getElementById("fhEndDateWrap").classList.toggle("show",fhRadio("fh_has_end_date")===true)}
+async function saveHealthIncome(){
+  try{
+    clearFhError();const type=fhText("fh_income_source_type");if(!type)throw new Error("Please select the income type.");const regularity=fhText("fh_income_regularity");if(!regularity)throw new Error("Please select how regular this income is.");
+    const years=requireFhNum("fh_tenure_years","income tenure in years"),months=requireFhNum("fh_tenure_months","income tenure in months");if(!Number.isInteger(years)||!Number.isInteger(months)||months>11)throw new Error("Enter tenure as whole years and 0–11 months.");
+    const salary=type==="Salary";let employment=null,pension=null,retirement=null;
+    if(salary){employment=fhText("fh_employment_type");if(!employment)throw new Error("Please select the employment type.");pension=requireFhRadio("fh_is_pensionable","whether this job provides a pension");retirement=requireFhRadio("fh_has_retirement_benefits","whether this job provides other retirement benefits")}
+    const hasEnd=requireFhRadio("fh_has_end_date","whether this income source has a known end date"),expectedEnd=hasEnd?fhText("fh_expected_end_date"):null;if(hasEnd&&!expectedEnd)throw new Error("Please enter the expected end date.");
+    const payload={assessment_id:financialHealthAssessment.id,income_source_type:type,monthly_income:requireFhNum("fh_monthly_income","monthly income"),income_regularity:regularity,source_tenure_months:years*12+months,employment_type:employment,is_pensionable:pension,has_retirement_benefits:retirement,expected_end_date:expectedEnd,is_independent_income_source:requireFhRadio("fh_is_independent_income_source","whether this source is independent from the main income source"),is_currently_active:true,income_source_description:fhText("fh_income_source_description")};
+    fhLoading(true,"Saving income source…");const id=document.getElementById("fh_income_id").value;
+    const result=id?await getSupabase().from("financial_health_income_sources").update(payload).eq("id",id).select().single():await getSupabase().from("financial_health_income_sources").insert(payload).select().single();if(result.error)throw result.error;
+    const {data,error}=await getSupabase().from("financial_health_income_sources").select("*").eq("assessment_id",financialHealthAssessment.id).eq("is_currently_active",true).order("created_at",{ascending:true});if(error)throw error;financialHealthIncomeSources=data||[];renderHealthIncomeList();cancelHealthIncome();
+  }catch(err){fhError(err.message)}finally{fhLoading(false)}
+}
+async function deleteHealthIncome(id){if(!confirm("Remove this income source from the current assessment?"))return;try{fhLoading(true,"Removing income source…");const {error}=await getSupabase().from("financial_health_income_sources").delete().eq("id",id);if(error)throw error;financialHealthIncomeSources=financialHealthIncomeSources.filter(x=>Number(x.id)!==Number(id));renderHealthIncomeList()}catch(err){fhError(err.message)}finally{fhLoading(false)}}
+function continueHealthIncome(){
+  const incomeReceivers = Number(
+    financialHealthCache.household?.income_receiving_members ?? 0
+  );
+
+  if(incomeReceivers > 0 && !financialHealthIncomeSources.length){
+    fhError("Please add at least one current household income source.");
+    return;
+  }
+
+  showHealthStep(3);
+}
+
+function fillHealthCash(){const x=financialHealthCache.cash;if(!x)return;["monthly_savings_contributions","monthly_investment_contributions","monthly_discretionary_spending","annual_irregular_expenses"].forEach(k=>setFhInput("fh_"+k,x[k]));setFhRadio("fh_has_overdue_obligations",x.has_overdue_obligations);setFhRadio("fh_uses_debt_for_regular_expenses",x.uses_debt_for_regular_expenses)}
+async function saveHealthCashFlow(){
+  try{
+    const payload={assessment_id:financialHealthAssessment.id,monthly_savings_contributions:requireFhNum("fh_monthly_savings_contributions","monthly savings contributions"),monthly_investment_contributions:requireFhNum("fh_monthly_investment_contributions","monthly investment contributions"),monthly_discretionary_spending:requireFhNum("fh_monthly_discretionary_spending","monthly discretionary spending"),annual_irregular_expenses:requireFhNum("fh_annual_irregular_expenses","annual irregular expenses"),has_overdue_obligations:requireFhRadio("fh_has_overdue_obligations","whether any obligations are overdue"),uses_debt_for_regular_expenses:requireFhRadio("fh_uses_debt_for_regular_expenses","whether debt is regularly used for normal expenses")};
+    fhLoading(true,"Saving cash-flow information…");const result=financialHealthCache.cash?await getSupabase().from("financial_health_cash_flow").update(payload).eq("assessment_id",financialHealthAssessment.id).select().single():await getSupabase().from("financial_health_cash_flow").insert(payload).select().single();if(result.error)throw result.error;financialHealthCache.cash=result.data;showHealthStep(4)
+  }catch(err){fhError(err.message)}finally{fhLoading(false)}
+}
+
+function toggleHealthEmergencyFund(){document.getElementById("fhEmergencyAmountWrap").classList.toggle("show",fhRadio("fh_has_dedicated_emergency_fund")===true)}
+function fillHealthEmergency(){const x=financialHealthCache.emergency;if(!x)return;setFhRadio("fh_has_dedicated_emergency_fund",x.has_dedicated_emergency_fund);["dedicated_emergency_fund_amount","liquid_emergency_savings","near_liquid_assets"].forEach(k=>setFhInput("fh_"+k,x[k]));toggleHealthEmergencyFund()}
+async function saveHealthEmergency(){
+  try{
+    const hasFund=requireFhRadio("fh_has_dedicated_emergency_fund","whether you keep a dedicated emergency fund");
+    const payload={assessment_id:financialHealthAssessment.id,has_dedicated_emergency_fund:hasFund,dedicated_emergency_fund_amount:hasFund?requireFhNum("fh_dedicated_emergency_fund_amount","dedicated emergency fund amount"):0,liquid_emergency_savings:requireFhNum("fh_liquid_emergency_savings","other immediately accessible savings"),near_liquid_assets:requireFhNum("fh_near_liquid_assets","near-liquid financial assets")};
+    fhLoading(true,"Saving emergency resilience information…");const result=financialHealthCache.emergency?await getSupabase().from("financial_health_emergency_resilience").update(payload).eq("assessment_id",financialHealthAssessment.id).select().single():await getSupabase().from("financial_health_emergency_resilience").insert(payload).select().single();if(result.error)throw result.error;financialHealthCache.emergency=result.data;showHealthStep(5)
+  }catch(err){fhError(err.message)}finally{fhLoading(false)}
+}
+
+function toggleHealthCoverage(){document.getElementById("fhHealthCoverageFields").classList.toggle("show",fhRadio("fh_has_health_coverage")===true)}
+function toggleHealthLifeInsurance(){document.getElementById("fhLifeInsuranceFields").classList.toggle("show",fhRadio("fh_has_life_insurance")===true)}
+function fillHealthRisk(){const x=financialHealthCache.risk;if(!x)return;setFhRadio("fh_has_health_coverage",x.has_health_coverage);setFhInput("fh_health_coverage_source",x.health_coverage_source);setFhInput("fh_health_coverage_limit_annual",x.health_coverage_limit_annual);setFhRadio("fh_has_life_insurance",x.has_life_insurance);setFhInput("fh_life_insurance_coverage_amount",x.life_insurance_coverage_amount);setFhInput("fh_total_outstanding_debt",x.total_outstanding_debt);setFhRadio("fh_has_secured_debt",x.has_secured_debt);toggleHealthCoverage();toggleHealthLifeInsurance()}
+async function saveHealthRisk(){
+  try{
+    const healthCoverage=requireFhRadio("fh_has_health_coverage","whether the household has health coverage"),lifeInsurance=requireFhRadio("fh_has_life_insurance","whether an important household income earner has life insurance or death-benefit coverage");let healthSource=null,healthLimit=null,lifeAmount=null;
+    if(healthCoverage){healthSource=fhText("fh_health_coverage_source");if(!healthSource)throw new Error("Please select where the health coverage comes from.");healthLimit=fhNum("fh_health_coverage_limit_annual")}
+    if(lifeInsurance)lifeAmount=fhNum("fh_life_insurance_coverage_amount");
+    const payload={assessment_id:financialHealthAssessment.id,has_health_coverage:healthCoverage,health_coverage_source:healthSource,health_coverage_limit_annual:healthLimit,has_life_insurance:lifeInsurance,life_insurance_coverage_amount:lifeAmount,total_outstanding_debt:requireFhNum("fh_total_outstanding_debt","total outstanding household debt"),has_secured_debt:requireFhRadio("fh_has_secured_debt","whether any household debt is secured against an important asset")};
+    fhLoading(true,"Saving risk and protection information…");const result=financialHealthCache.risk?await getSupabase().from("financial_health_risk_protection").update(payload).eq("assessment_id",financialHealthAssessment.id).select().single():await getSupabase().from("financial_health_risk_protection").insert(payload).select().single();if(result.error)throw result.error;financialHealthCache.risk=result.data;showHealthStep(6)
+  }catch(err){fhError(err.message)}finally{fhLoading(false)}
+}
+
+function toggleHealthHomeFinancing(){document.getElementById("fhHomeFinancingWrap").classList.toggle("show",fhRadio("fh_owns_primary_residence")===true)}
+function fillHealthLongTerm(){const x=financialHealthCache.longterm;if(!x)return;["financial_investment_assets","productive_nonfinancial_assets","personal_use_assets","accumulated_retirement_benefits"].forEach(k=>setFhInput("fh_"+k,x[k]));setFhRadio("fh_owns_primary_residence",x.owns_primary_residence);setFhRadio("fh_primary_residence_has_financing",x.primary_residence_has_financing);toggleHealthHomeFinancing()}
+async function saveHealthLongTerm(){
+  try{
+    const owns=requireFhRadio("fh_owns_primary_residence","whether your household owns the home you live in"),homeFinance=owns?requireFhRadio("fh_primary_residence_has_financing","whether financing remains outstanding against the home"):null;
+    const payload={assessment_id:financialHealthAssessment.id,financial_investment_assets:requireFhNum("fh_financial_investment_assets","financial investment assets"),productive_nonfinancial_assets:requireFhNum("fh_productive_nonfinancial_assets","productive non-financial assets"),personal_use_assets:requireFhNum("fh_personal_use_assets","major personal-use assets"),accumulated_retirement_benefits:requireFhNum("fh_accumulated_retirement_benefits","accumulated retirement benefits"),owns_primary_residence:owns,primary_residence_has_financing:homeFinance};
+    fhLoading(true,"Saving long-term security information…");const result=financialHealthCache.longterm?await getSupabase().from("financial_health_long_term_security").update(payload).eq("assessment_id",financialHealthAssessment.id).select().single():await getSupabase().from("financial_health_long_term_security").insert(payload).select().single();if(result.error)throw result.error;financialHealthCache.longterm=result.data;showHealthStep(7)
+  }catch(err){fhError(err.message)}finally{fhLoading(false)}
+}
+
+function healthReviewRow(label,value){return `<div class="health-review-row"><span>${fhEsc(label)}</span><strong>${fhEsc(value)}</strong></div>`}
+function buildHealthReview(){
+  const box=document.getElementById("fhReview"),h=financialHealthCache.household||{},c=financialHealthCache.cash||{},e=financialHealthCache.emergency||{},r=financialHealthCache.risk||{},l=financialHealthCache.longterm||{};
+  const totalIncome=financialHealthIncomeSources.reduce((sum,x)=>sum+Number(x.monthly_income||0),0),incomeRows=financialHealthIncomeSources.map(x=>healthReviewRow(x.income_source_description||x.income_source_type,`${fhMoney(x.monthly_income)} / month · ${x.income_regularity}`)).join("");
+  box.innerHTML=`
+  <div class="health-review-section"><h3>Household Profile</h3>${healthReviewRow("Household members",h.household_members)}${healthReviewRow("Income-receiving members",h.income_receiving_members)}${healthReviewRow("Fully dependent members",h.fully_dependent_members)}${healthReviewRow("Partially dependent members",h.partially_dependent_members)}${healthReviewRow("Financially self-sufficient members",h.non_dependent_members)}${healthReviewRow("Dependent children",h.dependent_children)}${healthReviewRow("Essential monthly expenses",fhMoney(h.monthly_household_expenses))}${healthReviewRow("Monthly debt payments",fhMoney(h.monthly_debt_payments))}${healthReviewRow("Recurring monthly medical costs",fhMoney(h.monthly_recurring_medical_costs))}${healthReviewRow("External financial support",fhMoney(h.monthly_external_support))}${Number(h.monthly_external_support||0)>0?healthReviewRow("Support regularity",h.external_support_regularity||"Not provided"):""}${Number(h.monthly_external_support||0)>0?healthReviewRow("Support tenure",h.external_support_tenure_months==null?"Not provided":`${Math.floor(Number(h.external_support_tenure_months)/12)} year(s), ${Number(h.external_support_tenure_months)%12} month(s)`):""}${Number(h.monthly_external_support||0)>0?healthReviewRow("Support expected end date",h.external_support_expected_end_date||"No known end date"):""}</div>
+  <div class="health-review-section"><h3>Income & Stability</h3>${healthReviewRow("Derived total monthly income",fhMoney(totalIncome))}${incomeRows}</div>
+  <div class="health-review-section"><h3>Cash-Flow Health</h3>${healthReviewRow("Monthly savings",fhMoney(c.monthly_savings_contributions))}${healthReviewRow("Monthly investments",fhMoney(c.monthly_investment_contributions))}${healthReviewRow("Monthly discretionary spending",fhMoney(c.monthly_discretionary_spending))}${healthReviewRow("Annual irregular expenses",fhMoney(c.annual_irregular_expenses))}${healthReviewRow("Overdue obligations",c.has_overdue_obligations?"Yes":"No")}${healthReviewRow("Uses debt for regular expenses",c.uses_debt_for_regular_expenses?"Yes":"No")}</div>
+  <div class="health-review-section"><h3>Emergency Resilience</h3>${healthReviewRow("Dedicated emergency fund",e.has_dedicated_emergency_fund?"Yes":"No")}${healthReviewRow("Dedicated emergency fund amount",fhMoney(e.dedicated_emergency_fund_amount))}${healthReviewRow("Other liquid emergency savings",fhMoney(e.liquid_emergency_savings))}${healthReviewRow("Near-liquid assets",fhMoney(e.near_liquid_assets))}</div>
+  <div class="health-review-section"><h3>Risk & Protection</h3>${healthReviewRow("Health coverage",r.has_health_coverage?"Yes":"No")}${healthReviewRow("Health coverage source",r.health_coverage_source||"Not applicable")}${healthReviewRow("Annual health coverage limit",r.health_coverage_limit_annual==null?"Unknown / not applicable":fhMoney(r.health_coverage_limit_annual))}${healthReviewRow("Life / death-benefit coverage",r.has_life_insurance?"Yes":"No")}${healthReviewRow("Life coverage amount",r.life_insurance_coverage_amount==null?"Unknown / not applicable":fhMoney(r.life_insurance_coverage_amount))}${healthReviewRow("Total outstanding debt",fhMoney(r.total_outstanding_debt))}${healthReviewRow("Secured debt",r.has_secured_debt?"Yes":"No")}</div>
+  <div class="health-review-section"><h3>Long-Term Financial Security</h3>${healthReviewRow("Financial investments",fhMoney(l.financial_investment_assets))}${healthReviewRow("Productive non-financial assets",fhMoney(l.productive_nonfinancial_assets))}${healthReviewRow("Major personal-use assets",fhMoney(l.personal_use_assets))}${healthReviewRow("Accumulated retirement benefits",fhMoney(l.accumulated_retirement_benefits))}${healthReviewRow("Owns primary residence",l.owns_primary_residence?"Yes":"No")}${healthReviewRow("Primary residence has financing",l.owns_primary_residence?(l.primary_residence_has_financing?"Yes":"No"):"Not applicable")}</div>`;
+}
+function profileEsc(value){return fhEsc(value)}
+function profileItems(items,includeAction){
+  if(!Array.isArray(items)||!items.length)return '<div class="notice">No items available for this assessment.</div>';
+  return items.map(item=>`<div class="profile-item"><div class="profile-item-head"><div><strong>${profileEsc(item.rank?`${item.rank}. ${item.dimension_name}`:item.dimension_name)}</strong><small>${profileEsc(item.band||"")}${item.priority_class?` · ${profileEsc(item.priority_class)}`:""}</small></div><div class="profile-item-score">${profileEsc(item.score)} / 100</div></div>${item.finding?`<p>${profileEsc(item.finding)}</p>`:""}${includeAction&&item.recommended_action?`<p class="action-text"><strong>Recommended action:</strong> ${profileEsc(item.recommended_action)}</p>`:""}</div>`).join("");
+}
+function financialHealthProfileContext(profile){
+  const band=String(profile?.overall_band||"").trim().toLowerCase();
+  if(band==="very weak"||band==="weak"){
+    return "This score reflects your household's situation right now, not its future potential. The priority areas below show where practical improvements could have the greatest impact.";
+  }
+  return "This score summarizes your household's current financial position across eight Resource360 dimensions. It is a snapshot that can change as your circumstances and resources change.";
+}
+
+function renderFinancialHealthDimension(d,d1Context=null){
+  const number=Number(d?.dimension_number);
+  const score=d?.score;
+  const band=String(d?.band||"").trim();
+  const notScorable=score===null||score===undefined||score==="";
+
+  let detail="";
+  if(notScorable && number===2){
+    detail="There is currently no active household income to assess for stability. This dimension can be evaluated when income resumes.";
+  }else if(notScorable && number===3){
+    detail="There is currently no active income to assess for diversification. As income sources develop, Resource360 can evaluate dependence on any single source.";
+  }
+
+  const scoreLine=notScorable
+    ? profileEsc(band||"Not Currently Scorable")
+    : `${profileEsc(score)} / 100 · ${profileEsc(band)}`;
+
+  const context=(number===1&&d1Context)?`
+    <div class="dimension-context">
+      ${d1Context.finding?`<p><strong>What this means:</strong> ${profileEsc(d1Context.finding)}</p>`:""}
+      ${d1Context.objective?`<p><strong>Focus:</strong> ${profileEsc(d1Context.objective)}</p>`:""}
+      ${d1Context.recommended_action?`<p><strong>Recommended action:</strong> ${profileEsc(d1Context.recommended_action)}</p>`:""}
+    </div>`:"";
+
+  return `<div class="dimension-card${number===1&&d1Context?" contextual":""}"><strong>${profileEsc(d?.dimension_number)}. ${profileEsc(d?.dimension_name)}</strong><span>${scoreLine}</span>${detail?`<p style="font-size:12px;color:var(--muted);margin-top:7px;line-height:1.5">${profileEsc(detail)}</p>`:""}${context}</div>`;
+}
+
+function renderFinancialHealthProfile(profile,assessmentId=null){
+  const box=document.getElementById("fhProfileContent");if(!box)return;
+  const priorities=Array.isArray(profile.top_priorities)?profile.top_priorities:[];
+  const strengths=Array.isArray(profile.top_strengths)?profile.top_strengths:[];
+  const dimensions=Array.isArray(profile.dimensions)?profile.dimensions:[];
+  const alerts=[];
+  if(profile.overall_audit_status&&profile.overall_audit_status!=="Passed"){
+    const findings=Array.isArray(profile.audit_findings)?profile.audit_findings:[];
+    const findingsHtml=findings.length
+      ? `<div style="margin-top:10px;display:grid;gap:8px">${findings.map(f=>`<div style="padding-top:8px;border-top:1px solid rgba(114,85,10,.18)"><strong>${profileEsc(f.section||"Assessment answer")}</strong>${f.status?` <span style="font-size:11px;font-weight:800">· ${profileEsc(f.status)}</span>`:""}<br>${profileEsc(f.message||"Please review this answer.")}</div>`).join("")}</div>`
+      : "";
+    alerts.push(`<div class="profile-alert warn"><strong>Data review: ${profileEsc(profile.overall_audit_status)}</strong><br>${profileEsc(profile.overall_audit_message||"Some answers may need review.")}${findingsHtml}</div>`);
+  }
+  if(profile.financial_stress_flag)alerts.push('<div class="profile-alert danger"><strong>Current Financial Pressure</strong><br>Your present income or cash-flow position shows meaningful pressure. Resource360 will use the priority areas below to help you focus on the most practical next steps.</div>');
+  if(profile.resilience_gap_flag)alerts.push('<div class="profile-alert warn"><strong>Resilience Building Opportunity</strong><br>Your emergency resources or financial protection may need strengthening. This is an area Resource360 can help you work on over time.</div>');
+  if(profile.long_term_development_flag)alerts.push('<div class="profile-alert warn"><strong>Long-Term Development Opportunity</strong><br>Your household has room to build more long-term productive financial resources over time.</div>');
+
+  const currentScore=Number(profile.overall_score||0);
+  const effectiveAssessmentId=assessmentId??financialHealthAssessment?.id??null;
+  const comparison=getOverallFinancialHealthComparisonFromHistory(effectiveAssessmentId,currentScore);
+  const comparisonHtml=renderOverallFinancialHealthComparison(comparison);
+
+  box.innerHTML=`
+    <div class="health-profile-hero">
+      <div class="health-score-ring"><div style="text-align:center"><strong>${profileEsc(Math.round(currentScore))}</strong><br><span>OUT OF 100</span></div></div>
+      <div><div class="eyebrow">Overall Financial Health</div><h3 style="font-size:26px;color:var(--navy);margin:0">${profileEsc(profile.overall_band||"Not available")}</h3><span class="profile-band">${profileEsc(currentScore.toFixed(2))} / 100</span><p class="health-help" style="margin-top:10px">${profileEsc(financialHealthProfileContext(profile))}</p>${comparisonHtml}</div>
+    </div>
+    <div class="profile-alerts">${alerts.join("")}</div>
+    <div class="profile-grid">
+      <div class="profile-panel"><h3>Top Priority Areas</h3><div class="profile-list">${profileItems(priorities,true)}</div></div>
+      <div class="profile-panel"><h3>Current Strengths</h3><div class="profile-list">${profileItems(strengths,false)}</div></div>
+    </div>
+    <div class="profile-panel" style="margin-top:16px"><h3>All 8 Financial Health Dimensions</h3><div class="dimension-grid">${dimensions.map(d=>renderFinancialHealthDimension(d,profile.d1_context||null)).join("")}</div></div>`;
+}
+async function viewFinancialHealthProfile(){
+  try{
+    clearFhError();
+    if(!financialHealthAssessment||String(financialHealthAssessment.assessment_status||"").toLowerCase()!=="completed")throw new Error("Please complete the assessment before viewing results.");
+    fhLoading(true,"Preparing your Financial Health Profile…");
+
+    const profileResult=await getSupabase()
+      .from("financial_health_client_profile")
+      .select("*")
+      .eq("assessment_id",financialHealthAssessment.id)
+      .eq("client_id",currentClientProfile.id)
+      .maybeSingle();
+
+    if(profileResult.error)throw profileResult.error;
+    if(!profileResult.data)throw new Error("Your Financial Health Profile is not available yet. Please try again shortly.");
+
+    renderFinancialHealthProfile(profileResult.data,financialHealthAssessment.id);
+    showHealthStep(9);
+  }catch(err){console.error(err);fhError(err.message||"Unable to load your Financial Health Profile.")}
+  finally{fhLoading(false)}
+}
+
+async function completeHealthAssessment(){
+  try{
+    clearFhError();
+
+    const incomeReceivers = Number(
+      financialHealthCache.household?.income_receiving_members ?? 0
+    );
+
+    if(
+      !financialHealthAssessment ||
+      !financialHealthCache.household ||
+      (incomeReceivers > 0 && !financialHealthIncomeSources.length) ||
+      !financialHealthCache.cash ||
+      !financialHealthCache.emergency ||
+      !financialHealthCache.risk ||
+      !financialHealthCache.longterm
+    ){
+      throw new Error("One or more sections are incomplete. Please complete all sections before submitting.");
+    }
+
+    const button=document.getElementById("fhSubmitBtn");
+    button.disabled=true;
+    fhLoading(true,"Submitting your Financial Health Check…");
+
+    const alreadyCompleted=String(financialHealthAssessment.assessment_status||"").toLowerCase()==="completed";
+    const updates=alreadyCompleted
+      ? {assessment_status:"Completed"}
+      : {assessment_status:"Completed",completed_at:new Date().toISOString()};
+
+    const {data,error}=await getSupabase()
+      .from("financial_health_assessments")
+      .update(updates)
+      .eq("id",financialHealthAssessment.id)
+      .select()
+      .single();
+
+    if(error)throw error;
+
+    financialHealthAssessment=data;
+    financialHealthEditingCompleted=false;
+    showHealthStep(8);
+  }catch(err){
+    fhError(err.message);
+  }finally{
+    fhLoading(false);
+    const button=document.getElementById("fhSubmitBtn");
+    if(button)button.disabled=false;
+  }
+}
+
+window.addEventListener("load", async ()=>{
+  try{
+    const client=getSupabase();
+    const {data:{session}}=await client.auth.getSession();
+    if(!session) return;
+
+    const {data:profile, error}=await client
+      .from("clients")
+      .select("id, user_id, full_name, email, membership_status")
+      .eq("user_id", session.user.id)
+      .single();
+
+    if(!error && profile) routeProfile(profile);
+    else await client.auth.signOut();
+  }catch(e){ console.error(e); }
+});
+
+window.addEventListener("keydown",(e)=>{if(e.key==="Escape"){closeLogin();closeSignup();}});</script>
+</body>
+</html>
